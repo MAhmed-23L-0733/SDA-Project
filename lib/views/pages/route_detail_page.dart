@@ -50,6 +50,16 @@ class _RouteDetailPageState extends State<RouteDetailPage>
     super.dispose();
   }
 
+  String _formatTime(String time) {
+    String supabaseTimeString = time;
+    List<String> parts = supabaseTimeString.split(":");
+    int hour = int.tryParse(parts[0]) ?? 0;
+    int minute = int.tryParse(parts[1]) ?? 0;
+    TimeOfDay timeOfDay = TimeOfDay(hour: hour, minute: minute);
+    String formattedTime = timeOfDay.format(context);
+    return formattedTime;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -269,6 +279,24 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                     widget.route.date != null
                         ? '${widget.route.date!.day}/${widget.route.date!.month}/${widget.route.date!.year}'
                         : 'No date',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.access_time, color: Colors.white70, size: 20),
+                  const SizedBox(width: 12),
+                  Text(
+                    widget.route.time != null
+                        ? _formatTime(widget.route.time!)
+                        : 'No time',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,

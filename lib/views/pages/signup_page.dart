@@ -440,14 +440,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                     value: 'Female',
                                     child: Text('Female'),
                                   ),
-                                  DropdownMenuItem(
-                                    value: 'Other',
-                                    child: Text('Other'),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'Prefer not to say',
-                                    child: Text('Prefer not to say'),
-                                  ),
                                 ],
                                 onChanged: (value) {
                                   setState(() {
