@@ -198,7 +198,12 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                     Icon(
                       Icons.bookmark_border,
                       size: 80,
-                      color: Color.fromRGBO(theme.colorScheme.primary.red, theme.colorScheme.primary.green, theme.colorScheme.primary.blue, 0.5),
+                      color: Color.fromRGBO(
+                        theme.colorScheme.primary.red,
+                        theme.colorScheme.primary.green,
+                        theme.colorScheme.primary.blue,
+                        0.5,
+                      ),
                     ),
                     const SizedBox(height: 24),
                     Text(
@@ -278,7 +283,12 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(
-            color: Color.fromRGBO(theme.colorScheme.primary.red, theme.colorScheme.primary.green, theme.colorScheme.primary.blue, 0.3),
+            color: Color.fromRGBO(
+              theme.colorScheme.primary.red,
+              theme.colorScheme.primary.green,
+              theme.colorScheme.primary.blue,
+              0.3,
+            ),
             width: 1,
           ),
         ),
@@ -296,7 +306,12 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(theme.colorScheme.primary.red, theme.colorScheme.primary.green, theme.colorScheme.primary.blue, 0.1),
+                          color: Color.fromRGBO(
+                            theme.colorScheme.primary.red,
+                            theme.colorScheme.primary.green,
+                            theme.colorScheme.primary.blue,
+                            0.1,
+                          ),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
@@ -364,7 +379,14 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
               ),
               const SizedBox(height: 16),
 
-              Divider(color: Color.fromRGBO(theme.colorScheme.primary.red, theme.colorScheme.primary.green, theme.colorScheme.primary.blue, 0.2)),
+              Divider(
+                color: Color.fromRGBO(
+                  theme.colorScheme.primary.red,
+                  theme.colorScheme.primary.green,
+                  theme.colorScheme.primary.blue,
+                  0.2,
+                ),
+              ),
               const SizedBox(height: 16),
 
               // Details row
@@ -453,7 +475,9 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                   decoration: BoxDecoration(
                     color: const Color.fromRGBO(0, 255, 0, 0.1),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: const Color.fromRGBO(0, 255, 0, 0.3)),
+                    border: Border.all(
+                      color: const Color.fromRGBO(0, 255, 0, 0.3),
+                    ),
                   ),
                   child: Row(
                     children: [
@@ -473,7 +497,7 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                   ),
                 ),
               ],
-              
+
               // Show payment card info if available
               if (_paymentInfoCache.containsKey(bookingId)) ...[
                 const SizedBox(height: 12),
@@ -904,9 +928,21 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Color.fromRGBO(statusColor.red, statusColor.green, statusColor.blue, 0.1),
+        color: Color.fromRGBO(
+          statusColor.red,
+          statusColor.green,
+          statusColor.blue,
+          0.1,
+        ),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Color.fromRGBO(statusColor.red, statusColor.green, statusColor.blue, 0.5)),
+        border: Border.all(
+          color: Color.fromRGBO(
+            statusColor.red,
+            statusColor.green,
+            statusColor.blue,
+            0.5,
+          ),
+        ),
       ),
       child: Text(
         statusText,
@@ -952,14 +988,32 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: Color.fromRGBO(classColor.red, classColor.green, classColor.blue, 0.15),
+        color: Color.fromRGBO(
+          classColor.red,
+          classColor.green,
+          classColor.blue,
+          0.15,
+        ),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Color.fromRGBO(classColor.red, classColor.green, classColor.blue, 0.5), width: 1.5),
+        border: Border.all(
+          color: Color.fromRGBO(
+            classColor.red,
+            classColor.green,
+            classColor.blue,
+            0.5,
+          ),
+          width: 1.5,
+        ),
       ),
       child: Text(
         className,
         style: TextStyle(
-          color: Color.fromRGBO(classColor.red, classColor.green, classColor.blue, 0.9),
+          color: Color.fromRGBO(
+            classColor.red,
+            classColor.green,
+            classColor.blue,
+            0.9,
+          ),
           fontSize: 13,
           fontWeight: FontWeight.bold,
         ),
