@@ -67,6 +67,7 @@ class _SignInPageState extends State<SignInPage> {
               backgroundColor: Colors.red,
             ),
           );
+          return;
         }
       }
 
