@@ -1,5 +1,6 @@
 import 'package:flutter_template/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:bcrypt/bcrypt.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -59,11 +60,14 @@ class Customer extends Users {
     String role,
   ) async {
     try {
+      // Hash the password using bcrypt
+      final hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
       final response = await supabase.from('users').insert({
         'first_name': firstName,
         'last_name': lastName,
         'email': email,
-        'password': password,
+        'password': hashedPassword,
         'dob': dob.toIso8601String(),
         'gender': gender,
         'phone': phone,
