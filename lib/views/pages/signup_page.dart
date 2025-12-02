@@ -201,7 +201,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24.0),
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -416,7 +416,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                               // Gender Dropdown
                               DropdownButtonFormField<String>(
-                                value: _selectedGender,
+                                initialValue: _selectedGender,
                                 decoration: InputDecoration(
                                   labelText: 'Gender',
                                   prefixIcon: Icon(

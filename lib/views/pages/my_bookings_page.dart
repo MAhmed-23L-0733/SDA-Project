@@ -22,8 +22,8 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
   List<Map<String, dynamic>> _bookings = [];
   bool _isLoading = true;
   String? _error;
-  Map<String, int> _discountValues = {}; // Cache for discount values
-  Map<int, PaymentInfo> _paymentInfoCache = {}; // Cache for payment info
+  final Map<String, int> _discountValues = {}; // Cache for discount values
+  final Map<int, PaymentInfo> _paymentInfoCache = {}; // Cache for payment info
 
   @override
   void initState() {
@@ -581,32 +581,32 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                 ),
                 elevation: 2,
               ).copyWith(
-                overlayColor: MaterialStateProperty.resolveWith<Color?>((
-                  Set<MaterialState> states,
+                overlayColor: WidgetStateProperty.resolveWith<Color?>((
+                  Set<WidgetState> states,
                 ) {
-                  if (states.contains(MaterialState.hovered)) {
+                  if (states.contains(WidgetState.hovered)) {
                     return Colors.white;
                   }
                   return null;
                 }),
-                backgroundColor: MaterialStateProperty.resolveWith<Color>((
-                  Set<MaterialState> states,
+                backgroundColor: WidgetStateProperty.resolveWith<Color>((
+                  Set<WidgetState> states,
                 ) {
-                  if (states.contains(MaterialState.hovered)) {
+                  if (states.contains(WidgetState.hovered)) {
                     return Colors.white;
                   }
                   return Colors.red;
                 }),
-                foregroundColor: MaterialStateProperty.resolveWith<Color>((
-                  Set<MaterialState> states,
+                foregroundColor: WidgetStateProperty.resolveWith<Color>((
+                  Set<WidgetState> states,
                 ) {
-                  if (states.contains(MaterialState.hovered)) {
+                  if (states.contains(WidgetState.hovered)) {
                     return Colors.red;
                   }
                   return Colors.white;
                 }),
-                side: MaterialStateProperty.resolveWith<BorderSide>((
-                  Set<MaterialState> states,
+                side: WidgetStateProperty.resolveWith<BorderSide>((
+                  Set<WidgetState> states,
                 ) {
                   return BorderSide(color: Colors.red, width: 2);
                 }),
@@ -631,32 +631,32 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                 ),
                 elevation: 2,
               ).copyWith(
-                overlayColor: MaterialStateProperty.resolveWith<Color?>((
-                  Set<MaterialState> states,
+                overlayColor: WidgetStateProperty.resolveWith<Color?>((
+                  Set<WidgetState> states,
                 ) {
-                  if (states.contains(MaterialState.hovered)) {
+                  if (states.contains(WidgetState.hovered)) {
                     return Colors.white;
                   }
                   return null;
                 }),
-                backgroundColor: MaterialStateProperty.resolveWith<Color>((
-                  Set<MaterialState> states,
+                backgroundColor: WidgetStateProperty.resolveWith<Color>((
+                  Set<WidgetState> states,
                 ) {
-                  if (states.contains(MaterialState.hovered)) {
+                  if (states.contains(WidgetState.hovered)) {
                     return Colors.white;
                   }
                   return Colors.blue;
                 }),
-                foregroundColor: MaterialStateProperty.resolveWith<Color>((
-                  Set<MaterialState> states,
+                foregroundColor: WidgetStateProperty.resolveWith<Color>((
+                  Set<WidgetState> states,
                 ) {
-                  if (states.contains(MaterialState.hovered)) {
+                  if (states.contains(WidgetState.hovered)) {
                     return Colors.blue;
                   }
                   return Colors.white;
                 }),
-                side: MaterialStateProperty.resolveWith<BorderSide>((
-                  Set<MaterialState> states,
+                side: WidgetStateProperty.resolveWith<BorderSide>((
+                  Set<WidgetState> states,
                 ) {
                   return BorderSide(color: Colors.blue, width: 2);
                 }),
@@ -681,32 +681,32 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                 ),
                 elevation: 2,
               ).copyWith(
-                overlayColor: MaterialStateProperty.resolveWith<Color?>((
-                  Set<MaterialState> states,
+                overlayColor: WidgetStateProperty.resolveWith<Color?>((
+                  Set<WidgetState> states,
                 ) {
-                  if (states.contains(MaterialState.hovered)) {
+                  if (states.contains(WidgetState.hovered)) {
                     return Colors.white;
                   }
                   return null;
                 }),
-                backgroundColor: MaterialStateProperty.resolveWith<Color>((
-                  Set<MaterialState> states,
+                backgroundColor: WidgetStateProperty.resolveWith<Color>((
+                  Set<WidgetState> states,
                 ) {
-                  if (states.contains(MaterialState.hovered)) {
+                  if (states.contains(WidgetState.hovered)) {
                     return Colors.white;
                   }
                   return Colors.orange;
                 }),
-                foregroundColor: MaterialStateProperty.resolveWith<Color>((
-                  Set<MaterialState> states,
+                foregroundColor: WidgetStateProperty.resolveWith<Color>((
+                  Set<WidgetState> states,
                 ) {
-                  if (states.contains(MaterialState.hovered)) {
+                  if (states.contains(WidgetState.hovered)) {
                     return Colors.orange;
                   }
                   return Colors.white;
                 }),
-                side: MaterialStateProperty.resolveWith<BorderSide>((
-                  Set<MaterialState> states,
+                side: WidgetStateProperty.resolveWith<BorderSide>((
+                  Set<WidgetState> states,
                 ) {
                   return BorderSide(color: Colors.orange, width: 2);
                 }),
