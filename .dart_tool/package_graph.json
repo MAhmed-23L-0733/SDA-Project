@@ -102,15 +102,16 @@
     },
     {
       "name": "fl_chart",
-      "version": "0.69.2",
+      "version": "1.1.1",
       "dependencies": [
         "equatable",
-        "flutter"
+        "flutter",
+        "vector_math"
       ]
     },
     {
       "name": "intl",
-      "version": "0.19.0",
+      "version": "0.20.2",
       "dependencies": [
         "clock",
         "meta",
