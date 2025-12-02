@@ -7,6 +7,7 @@ const suapbaseURL = 'https://mprnfqhpcbvatuvkgttq.supabase.co';
 const supabaseAnonKey =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1wcm5mcWhwY2J2YXR1dmtndHRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMyMzEyMTUsImV4cCI6MjA3ODgwNzIxNX0.eF_uVn0rEtOgvuTkrHG0PLv9AaWged3lf8kT0T-K09g";
 
+//my name
 void main() async {
   // Must be called before any calls to native code or platform channels (like Supabase)
   WidgetsFlutterBinding.ensureInitialized();
