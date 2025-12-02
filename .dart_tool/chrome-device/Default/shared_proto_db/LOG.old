@@ -1,2 +1,8 @@
-2025/12/02-17:03:55.722 2bf4 Creating DB C:\Users\Dell\AppData\Local\Temp\flutter_tools.e4fbae97\flutter_tools_chrome_device.c09339ff\Default\shared_proto_db since it was missing.
-2025/12/02-17:03:55.754 2bf4 Reusing MANIFEST C:\Users\Dell\AppData\Local\Temp\flutter_tools.e4fbae97\flutter_tools_chrome_device.c09339ff\Default\shared_proto_db/MANIFEST-000001
+<<<<<<< HEAD
+2025/12/02-18:13:30.948 116c Creating DB C:\Users\Dell\AppData\Local\Temp\flutter_tools.9b93ec2f\flutter_tools_chrome_device.14f1a0fd\Default\shared_proto_db since it was missing.
+2025/12/02-18:13:30.998 116c Reusing MANIFEST C:\Users\Dell\AppData\Local\Temp\flutter_tools.9b93ec2f\flutter_tools_chrome_device.14f1a0fd\Default\shared_proto_db/MANIFEST-000001
+=======
+2025/12/02-21:21:37.541 415c Reusing MANIFEST C:\Users\Dell\AppData\Local\Temp\flutter_tools.a1517fb9\flutter_tools_chrome_device.31164403\Default\shared_proto_db/MANIFEST-000001
+2025/12/02-21:21:37.542 415c Recovering log #3
+2025/12/02-21:21:37.543 415c Reusing old log C:\Users\Dell\AppData\Local\Temp\flutter_tools.a1517fb9\flutter_tools_chrome_device.31164403\Default\shared_proto_db/000003.log 
+>>>>>>> b857493d9998f84debd8437501915be3cce652f2
