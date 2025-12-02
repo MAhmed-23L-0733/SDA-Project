@@ -616,7 +616,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                       ),
 
                   // Aisle
-                  SizedBox(
+                  Container(
                     width: 30,
                     height: 60,
                     child: Center(

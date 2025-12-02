@@ -5,14 +5,23 @@ final supabase = Supabase.instance.client;
 
 class Customer extends Users {
   Customer({
-    super.id,
-    super.firstName,
-    super.lastName,
-    super.email,
-    super.phone,
-    super.dob,
-    super.gender,
-  }) : super(role: 'customer');
+    int? id,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? phone,
+    DateTime? dob,
+    int? gender,
+  }) : super(
+         id: id,
+         firstName: firstName,
+         lastName: lastName,
+         email: email,
+         phone: phone,
+         dob: dob,
+         gender: gender,
+         role: 'customer',
+       );
   @override
   factory Customer.fromJson(Map<String, dynamic> json) {
     return Customer(

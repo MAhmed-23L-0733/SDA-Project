@@ -101,7 +101,7 @@ class Users {
         },
       );
     } on PostgrestException catch (e) {
-      rethrow;
+      throw e;
     } catch (e) {
       throw Exception('Failed to update password: ${e.toString()}');
     }

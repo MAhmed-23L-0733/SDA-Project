@@ -711,7 +711,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                       // Gender
                       DropdownButtonFormField<int>(
-                        initialValue: _selectedGender,
+                        value: _selectedGender,
                         decoration: InputDecoration(
                           labelText: 'Gender',
                           prefixIcon: Icon(Icons.person_pin),

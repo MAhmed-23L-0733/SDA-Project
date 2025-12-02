@@ -5,14 +5,23 @@ final supabase = Supabase.instance.client;
 
 class Admin extends Users {
   Admin({
-    super.id,
-    super.firstName,
-    super.lastName,
-    super.email,
-    super.phone,
-    super.dob,
-    super.gender,
-  }) : super(role: 'admin');
+    int? id,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? phone,
+    DateTime? dob,
+    int? gender,
+  }) : super(
+         id: id,
+         firstName: firstName,
+         lastName: lastName,
+         email: email,
+         phone: phone,
+         dob: dob,
+         gender: gender,
+         role: 'admin',
+       );
 
   @override
   factory Admin.fromJson(Map<String, dynamic> json) {

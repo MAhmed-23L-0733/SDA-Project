@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      body: SizedBox(
+      body: Container(
         height: double.infinity,
         child: SafeArea(
           child: CustomScrollView(
