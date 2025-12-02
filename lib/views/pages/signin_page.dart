@@ -6,6 +6,7 @@ import 'package:flutter_template/models/customer_model.dart';
 import 'package:flutter_template/models/notification_model.dart';
 import 'package:flutter_template/views/pages/signup_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:bcrypt/bcrypt.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -56,10 +57,14 @@ class _SignInPageState extends State<SignInPage> {
         return;
       }
 
-      if ((response.containsKey('password') &&
-              response['password'] != _passwordController.text) ||
-          (response.containsKey('email') &&
-              response['email'] != _emailController.text)) {
+      // Verify password using bcrypt
+      final storedHashedPassword = response['password'] as String;
+      final isPasswordValid = BCrypt.checkpw(
+        _passwordController.text,
+        storedHashedPassword,
+      );
+
+      if (!isPasswordValid || response['email'] != _emailController.text) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -67,6 +72,7 @@ class _SignInPageState extends State<SignInPage> {
               backgroundColor: Colors.red,
             ),
           );
+          return;
         }
       }
 

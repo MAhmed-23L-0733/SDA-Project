@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\SDA-Project\build\pdfium-download\CMakeFiles\3a04f0dc390d500c08fdc26029fcd20e\pdfium-download-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\SDA-Project\build\pdfium-download\CMakeFiles\3a04f0dc390d500c08fdc26029fcd20e\pdfium-download-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\SDA-Project\build\pdfium-download\CMakeFiles\3a04f0dc390d500c08fdc26029fcd20e\pdfium-download-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\SDA-Project\build\pdfium-download\CMakeFiles\3a04f0dc390d500c08fdc26029fcd20e\pdfium-download-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\SDA-Project\build\pdfium-download\CMakeFiles\3a04f0dc390d500c08fdc26029fcd20e\pdfium-download-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\SDA-Project\build\pdfium-download\CMakeFiles\3a04f0dc390d500c08fdc26029fcd20e\pdfium-download-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\SDA-Project\build\pdfium-download\CMakeFiles\3a04f0dc390d500c08fdc26029fcd20e\pdfium-download-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\SDA-Project\build\pdfium-download\CMakeFiles\3a04f0dc390d500c08fdc26029fcd20e\pdfium-download-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\SDA-Project\build\pdfium-download\CMakeFiles\50b12990d2d9b19620bfdf9527245490\pdfium-download-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\SDA-Project\build\pdfium-download\CMakeFiles\04c163cd0523bf234580229cc7e1abd6\pdfium-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\SDA-Project\build\pdfium-download\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\SDA-Project\build\pdfium-download\CMakeFiles\pdfium-download" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{1B3F6865-02DC-372A-B390-6989EEF808A8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

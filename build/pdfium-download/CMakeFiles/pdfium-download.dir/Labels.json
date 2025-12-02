@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/SDA-Project/build/pdfium-download/CMakeFiles/pdfium-download"
+		},
+		{
+			"file" : "D:/SDA-Project/build/pdfium-download/CMakeFiles/04c163cd0523bf234580229cc7e1abd6/pdfium-download.rule"
+		},
+		{
+			"file" : "D:/SDA-Project/build/pdfium-download/CMakeFiles/50b12990d2d9b19620bfdf9527245490/pdfium-download-complete.rule"
+		},
+		{
+			"file" : "D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-build.rule"
+		},
+		{
+			"file" : "D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-configure.rule"
+		},
+		{
+			"file" : "D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-download.rule"
+		},
+		{
+			"file" : "D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-install.rule"
+		},
+		{
+			"file" : "D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-mkdir.rule"
+		},
+		{
+			"file" : "D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-patch.rule"
+		},
+		{
+			"file" : "D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-test.rule"
+		},
+		{
+			"file" : "D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"pdfium-download"
+		],
+		"name" : "pdfium-download"
+	}
+}

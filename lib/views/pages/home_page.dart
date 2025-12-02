@@ -145,6 +145,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
   }
 
+  void _resetSearch() {
+    if (!mounted) return;
+
+    setState(() {
+      _originController.clear();
+      _destinationController.clear();
+      _selectedDate = null;
+      _routes = List.from(_allRoutes);
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Search cleared - Showing all routes'),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -194,12 +213,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           size: 24,
                         ),
                         const SizedBox(width: 12),
-                        Text(
-                          'Available Routes',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: isDark ? Colors.white : Colors.black,
+                        Expanded(
+                          child: Text(
+                            'Available Routes',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: isDark ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: _resetSearch,
+                          icon: Icon(Icons.refresh),
+                          color: theme.colorScheme.primary,
+                          tooltip: 'Reset Search',
+                          style: IconButton.styleFrom(
+                            backgroundColor: theme.colorScheme.primary
+                                .withValues(alpha: 0.1),
                           ),
                         ),
                       ],

@@ -278,7 +278,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   color: const Color.fromRGBO(255, 255, 255, 0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(Icons.attach_money, color: Colors.white, size: 28),
+                child: Icon(Icons.money, color: Colors.white, size: 28),
               ),
               Spacer(),
               Icon(
