@@ -1,0 +1,14 @@
+# Target labels
+ pdfium-download
+# Source files and their labels
+D:/SDA-Project/build/pdfium-download/CMakeFiles/pdfium-download
+D:/SDA-Project/build/pdfium-download/CMakeFiles/04c163cd0523bf234580229cc7e1abd6/pdfium-download.rule
+D:/SDA-Project/build/pdfium-download/CMakeFiles/50b12990d2d9b19620bfdf9527245490/pdfium-download-complete.rule
+D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-build.rule
+D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-configure.rule
+D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-download.rule
+D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-install.rule
+D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-mkdir.rule
+D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-patch.rule
+D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-test.rule
+D:/SDA-Project/build/pdfium-download/CMakeFiles/3a04f0dc390d500c08fdc26029fcd20e/pdfium-download-update.rule
