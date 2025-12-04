@@ -12,11 +12,16 @@ class ManageRoutesPage extends StatefulWidget {
 
 class _ManageRoutesPageState extends State<ManageRoutesPage> {
   List<Routes> _routes = [];
+  List<Routes> _filteredRoutes = [];
   bool _isLoading = true;
   String? _error;
+  String _searchQuery = '';
+  String _sortOption =
+      'date_newest'; // date_newest, date_oldest, name_az, name_za
 
   // Form controllers
   final _formKey = GlobalKey<FormState>();
+  final _searchController = TextEditingController();
   final _originController = TextEditingController();
   final _destinationController = TextEditingController();
   final _timeController = TextEditingController();
@@ -37,6 +42,7 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
 
   @override
   void dispose() {
+    _searchController.dispose();
     _originController.dispose();
     _destinationController.dispose();
     _timeController.dispose();
@@ -60,6 +66,7 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
       if (mounted) {
         setState(() {
           _routes = routesData.map((json) => Routes.fromJson(json)).toList();
+          _applyFilters();
           _isLoading = false;
         });
       }
@@ -70,6 +77,74 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
           _isLoading = false;
         });
       }
+    }
+  }
+
+  void _applyFilters() {
+    List<Routes> filtered = List.from(_routes);
+
+    // Apply search filter
+    if (_searchQuery.isNotEmpty) {
+      filtered = filtered.where((route) {
+        final origin = route.origin?.toLowerCase() ?? '';
+        final destination = route.destination?.toLowerCase() ?? '';
+        final query = _searchQuery.toLowerCase();
+        return origin.contains(query) || destination.contains(query);
+      }).toList();
+    }
+
+    // Apply sorting
+    switch (_sortOption) {
+      case 'date_newest':
+        filtered.sort((a, b) {
+          if (a.date == null && b.date == null) return 0;
+          if (a.date == null) return 1;
+          if (b.date == null) return -1;
+          return b.date!.compareTo(a.date!);
+        });
+        break;
+      case 'date_oldest':
+        filtered.sort((a, b) {
+          if (a.date == null && b.date == null) return 0;
+          if (a.date == null) return 1;
+          if (b.date == null) return -1;
+          return a.date!.compareTo(b.date!);
+        });
+        break;
+      case 'name_az':
+        filtered.sort((a, b) {
+          final aName = '${a.origin ?? ''} ${a.destination ?? ''}';
+          final bName = '${b.origin ?? ''} ${b.destination ?? ''}';
+          return aName.toLowerCase().compareTo(bName.toLowerCase());
+        });
+        break;
+      case 'name_za':
+        filtered.sort((a, b) {
+          final aName = '${a.origin ?? ''} ${a.destination ?? ''}';
+          final bName = '${b.origin ?? ''} ${b.destination ?? ''}';
+          return bName.toLowerCase().compareTo(aName.toLowerCase());
+        });
+        break;
+    }
+
+    setState(() {
+      _filteredRoutes = filtered;
+    });
+  }
+
+  void _onSearchChanged(String query) {
+    setState(() {
+      _searchQuery = query;
+    });
+    _applyFilters();
+  }
+
+  void _onSortChanged(String? newSort) {
+    if (newSort != null) {
+      setState(() {
+        _sortOption = newSort;
+      });
+      _applyFilters();
     }
   }
 
@@ -631,12 +706,84 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
 
               SizedBox(height: 30),
 
+              // Search and Filter Section
+              Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: TextField(
+                      controller: _searchController,
+                      onChanged: _onSearchChanged,
+                      decoration: InputDecoration(
+                        hintText: 'Search routes by origin or destination...',
+                        prefixIcon: Icon(Icons.search),
+                        suffixIcon: _searchQuery.isNotEmpty
+                            ? IconButton(
+                                icon: Icon(Icons.clear),
+                                onPressed: () {
+                                  _searchController.clear();
+                                  _onSearchChanged('');
+                                },
+                              )
+                            : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    flex: 2,
+                    child: DropdownButtonFormField<String>(
+                      value: _sortOption,
+                      onChanged: _onSortChanged,
+                      decoration: InputDecoration(
+                        labelText: 'Sort By',
+                        prefixIcon: Icon(Icons.sort),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                      items: [
+                        DropdownMenuItem(
+                          value: 'date_newest',
+                          child: Text('Date: Newest'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'date_oldest',
+                          child: Text('Date: Oldest'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'name_az',
+                          child: Text('Name: A-Z'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'name_za',
+                          child: Text('Name: Z-A'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 16),
+
               // Routes List Header
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'All Routes',
+                    'All Routes (${_filteredRoutes.length})',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -692,7 +839,12 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                         Icon(
                           Icons.route,
                           size: 64,
-                          color: Color.fromRGBO(theme.colorScheme.primary.red, theme.colorScheme.primary.green, theme.colorScheme.primary.blue, 0.3),
+                          color: Color.fromRGBO(
+                            theme.colorScheme.primary.red,
+                            theme.colorScheme.primary.green,
+                            theme.colorScheme.primary.blue,
+                            0.3,
+                          ),
                         ),
                         SizedBox(height: 16),
                         Text(
@@ -711,9 +863,9 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: _routes.length,
+                  itemCount: _filteredRoutes.length,
                   itemBuilder: (context, index) {
-                    final route = _routes[index];
+                    final route = _filteredRoutes[index];
                     return _buildRouteCard(route, theme);
                   },
                 ),
@@ -728,6 +880,27 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
     final formattedDate = route.date != null
         ? DateFormat('MMM dd, yyyy').format(route.date!)
         : 'N/A';
+
+    // Format time to show AM/PM without seconds
+    String formattedTime = 'N/A';
+    if (route.time != null && route.time!.isNotEmpty) {
+      try {
+        // Parse the time string (format like "14:30:00" or "14:30")
+        final parts = route.time!.split(':');
+        if (parts.isNotEmpty) {
+          int hour = int.parse(parts[0]);
+          int minute = parts.length > 1 ? int.parse(parts[1]) : 0;
+
+          // Convert to 12-hour format with AM/PM
+          final period = hour >= 12 ? 'PM' : 'AM';
+          hour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
+          formattedTime =
+              '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
+        }
+      } catch (e) {
+        formattedTime = route.time ?? 'N/A';
+      }
+    }
 
     return Card(
       margin: EdgeInsets.only(bottom: 12),
@@ -774,7 +947,7 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                       Icon(Icons.access_time, size: 16, color: Colors.grey),
                       SizedBox(width: 6),
                       Text(
-                        route.time ?? 'N/A',
+                        formattedTime,
                         style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                       ),
                     ],

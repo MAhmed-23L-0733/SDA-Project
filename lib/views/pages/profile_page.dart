@@ -5,6 +5,7 @@ import 'package:flutter_template/models/customer_model.dart';
 import 'package:flutter_template/models/admin_model.dart';
 import 'package:flutter_template/models/user_model.dart';
 import 'package:flutter_template/models/payment_model.dart';
+import 'package:flutter_template/utils/password_helper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
@@ -391,8 +392,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
                       await Users.updatePassword(
                         userId: userId,
-                        oldPassword: oldPasswordController.text.trim(),
-                        newPassword: newPasswordController.text.trim(),
+                        oldPassword: PasswordHelper.encryptPassword(
+                          oldPasswordController.text.trim(),
+                        ),
+                        newPassword: PasswordHelper.encryptPassword(
+                          newPasswordController.text.trim(),
+                        ),
                       );
 
                       Navigator.of(context).pop();

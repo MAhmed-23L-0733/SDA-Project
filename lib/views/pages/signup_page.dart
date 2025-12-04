@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/models/customer_model.dart';
 import 'package:flutter_template/views/pages/signin_page.dart';
+import 'package:flutter_template/utils/password_helper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -73,7 +74,7 @@ class _SignUpPageState extends State<SignUpPage> {
         _firstNameController.text.trim(),
         _lastNameController.text.trim(),
         _emailController.text.trim(),
-        _passwordController.text,
+        PasswordHelper.encryptPassword(_passwordController.text),
         _selectedDate as DateTime,
         _selectedGender == "Male" ? 1 : 0,
         _phonecontroller.text.trim(),

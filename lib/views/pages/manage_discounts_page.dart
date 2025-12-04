@@ -293,7 +293,7 @@ class _ManageDiscountsPageState extends State<ManageDiscountsPage> {
                                   controller: _valueController,
                                   decoration: InputDecoration(
                                     labelText: 'Discount %',
-                                    hintText: '0-100',
+                                    hintText: '1-70',
                                     prefixIcon: Icon(Icons.percent),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
@@ -310,6 +310,9 @@ class _ManageDiscountsPageState extends State<ManageDiscountsPage> {
                                     }
                                     if (intValue < 1 || intValue > 100) {
                                       return '1-100';
+                                    }
+                                    if (intValue > 70) {
+                                      return 'Max 70%';
                                     }
                                     return null;
                                   },
@@ -435,7 +438,12 @@ class _ManageDiscountsPageState extends State<ManageDiscountsPage> {
                                 borderRadius: BorderRadius.circular(12),
                                 border: isExpired
                                     ? Border.all(
-                                        color: const Color.fromRGBO(255, 0, 0, 0.3),
+                                        color: const Color.fromRGBO(
+                                          255,
+                                          0,
+                                          0,
+                                          0.3,
+                                        ),
                                         width: 1,
                                       )
                                     : null,
@@ -507,7 +515,12 @@ class _ManageDiscountsPageState extends State<ManageDiscountsPage> {
                                           vertical: 4,
                                         ),
                                         decoration: BoxDecoration(
-                                          color: const Color.fromRGBO(255, 0, 0, 0.1),
+                                          color: const Color.fromRGBO(
+                                            255,
+                                            0,
+                                            0,
+                                            0.1,
+                                          ),
                                           borderRadius: BorderRadius.circular(
                                             12,
                                           ),

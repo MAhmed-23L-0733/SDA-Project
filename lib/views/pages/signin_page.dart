@@ -5,8 +5,9 @@ import 'package:flutter_template/models/admin_model.dart';
 import 'package:flutter_template/models/customer_model.dart';
 import 'package:flutter_template/models/notification_model.dart';
 import 'package:flutter_template/views/pages/signup_page.dart';
+import 'package:flutter_template/views/pages/forgot_password_page.dart';
+import 'package:flutter_template/utils/password_helper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:bcrypt/bcrypt.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -30,6 +31,28 @@ class _SignInPageState extends State<SignInPage> {
     super.dispose();
   }
 
+  void _showErrorDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.error_outline, color: Colors.red, size: 28),
+            SizedBox(width: 12),
+            Text(title),
+          ],
+        ),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _handleSignIn() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -47,30 +70,26 @@ class _SignInPageState extends State<SignInPage> {
           .single();
       if (response.isEmpty) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('The account could not be found.'),
-              backgroundColor: Colors.red,
-            ),
+          _showErrorDialog(
+            'Account Not Found',
+            'The account could not be found. Please check your email.',
           );
         }
         return;
       }
 
-      // Verify password using bcrypt
-      final storedHashedPassword = response['password'] as String;
-      final isPasswordValid = BCrypt.checkpw(
+      // Verify password (compare encrypted password with stored hash)
+      final storedPassword = response['password'] as String;
+      final encryptedPassword = PasswordHelper.encryptPassword(
         _passwordController.text,
-        storedHashedPassword,
       );
+      final isPasswordValid = encryptedPassword == storedPassword;
 
       if (!isPasswordValid || response['email'] != _emailController.text) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Incorrect Credentials!"),
-              backgroundColor: Colors.red,
-            ),
+          _showErrorDialog(
+            'Incorrect Credentials',
+            'The email or password you entered is incorrect. Please try again.',
           );
           return;
         }
@@ -353,7 +372,36 @@ class _SignInPageState extends State<SignInPage> {
                                       ),
                               ),
                             ),
-                            const SizedBox(height: 32),
+                            const SizedBox(height: 16),
+
+                            // Forgot Password Link
+                            Center(
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ForgotPasswordPage(),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  'Forgot Password?',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color:
+                                        Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors.white
+                                        : const Color(0xFF4a148c),
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
 
                             // Sign Up Link
                             Row(

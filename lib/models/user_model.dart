@@ -1,5 +1,4 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:bcrypt/bcrypt.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -93,33 +92,14 @@ class Users {
     required String newPassword,
   }) async {
     try {
-      // First, get the current hashed password from database to verify old password
-      final userResponse = await supabase
-          .from('users')
-          .select('password')
-          .eq('id', userId)
-          .single();
-
-      final storedHashedPassword = userResponse['password'] as String;
-
-      // Verify old password
-      final isOldPasswordValid = BCrypt.checkpw(
-        oldPassword,
-        storedHashedPassword,
+      await supabase.rpc(
+        'update_user_password',
+        params: {
+          'p_user_id': userId,
+          'p_old_password': oldPassword,
+          'p_new_password': newPassword,
+        },
       );
-
-      if (!isOldPasswordValid) {
-        throw Exception('Current password is incorrect');
-      }
-
-      // Hash the new password
-      final hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-
-      // Update with hashed password
-      await supabase
-          .from('users')
-          .update({'password': hashedNewPassword})
-          .eq('id', userId);
     } on PostgrestException catch (e) {
       throw e;
     } catch (e) {

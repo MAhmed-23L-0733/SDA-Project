@@ -68,7 +68,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
      NOT IS_SYMLINK "$ENV{DESTDIR}/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/bundle/flutter_template")
     file(RPATH_CHANGE
          FILE "$ENV{DESTDIR}/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/bundle/flutter_template"
-         OLD_RPATH "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/gtk:/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/url_launcher_linux:/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral:"
+         OLD_RPATH "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/gtk:/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing:/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/url_launcher_linux:/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral:/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/pdfium-src/lib:"
          NEW_RPATH "$ORIGIN/lib")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/bundle/flutter_template")
@@ -110,6 +110,30 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   file(INSTALL DESTINATION "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/gtk/libgtk_plugin.so")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
+  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
+   "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/bundle/lib/libprinting_plugin.so")
+  if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+  if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+  file(INSTALL DESTINATION "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing/libprinting_plugin.so")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
+  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
+   "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/bundle/lib/libpdfium.so")
+  if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+  if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+  file(INSTALL DESTINATION "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/pdfium-src/lib/libpdfium.so")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -159,6 +183,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/flutter/cmake_install.cmake")
   include("/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/runner/cmake_install.cmake")
   include("/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/gtk/cmake_install.cmake")
+  include("/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing/cmake_install.cmake")
   include("/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/url_launcher_linux/cmake_install.cmake")
 
 endif()
