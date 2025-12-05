@@ -613,6 +613,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       TextFormField(
                         controller: _firstNameController,
                         enabled: _isEditing,
+                        keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                           labelText: 'First Name',
                           prefixIcon: Icon(Icons.person),
@@ -622,7 +623,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter first name';
+                            return 'First name is required';
+                          }
+                          if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value)) {
+                            return 'Only letters and spaces allowed';
                           }
                           return null;
                         },
@@ -633,6 +637,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       TextFormField(
                         controller: _lastNameController,
                         enabled: _isEditing,
+                        keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                           labelText: 'Last Name',
                           prefixIcon: Icon(Icons.person_outline),
@@ -642,7 +647,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter last name';
+                            return 'Last name is required';
+                          }
+                          if (value.trim().length < 2) {
+                            return 'Name must be at least 2 characters';
+                          }
+                          if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value)) {
+                            return 'Only letters and spaces allowed';
                           }
                           return null;
                         },
@@ -663,10 +674,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter email';
+                            return 'Email is required';
                           }
-                          if (!value.contains('@')) {
-                            return 'Please enter a valid email';
+                          final emailRegex = RegExp(
+                            r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                          );
+                          if (!emailRegex.hasMatch(value)) {
+                            return 'Enter a valid email address';
                           }
                           return null;
                         },
@@ -680,6 +694,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           labelText: 'Phone',
+                          hintText: '03XX-XXXXXXX',
                           prefixIcon: Icon(Icons.phone),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -687,7 +702,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter phone number';
+                            return 'Phone number is required';
+                          }
+                          final cleanedValue = value.replaceAll(
+                            RegExp(r'[\s-]'),
+                            '',
+                          );
+                          if (!RegExp(r'^03\d{9}$').hasMatch(cleanedValue)) {
+                            return 'Invalid format. Use: 03XX-XXXXXXX';
                           }
                           return null;
                         },

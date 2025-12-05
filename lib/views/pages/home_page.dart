@@ -145,25 +145,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
   }
 
-  void _resetSearch() {
-    if (!mounted) return;
-
-    setState(() {
-      _originController.clear();
-      _destinationController.clear();
-      _selectedDate = null;
-      _routes = List.from(_allRoutes);
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Search cleared - Showing all routes'),
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.green,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -213,24 +194,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           size: 24,
                         ),
                         const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            'Available Routes',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: isDark ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: _resetSearch,
-                          icon: Icon(Icons.refresh),
-                          color: theme.colorScheme.primary,
-                          tooltip: 'Reset Search',
-                          style: IconButton.styleFrom(
-                            backgroundColor: theme.colorScheme.primary
-                                .withValues(alpha: 0.1),
+                        Text(
+                          'Available Routes',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: isDark ? Colors.white : Colors.black,
                           ),
                         ),
                       ],
@@ -601,6 +570,50 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return formattedTime;
   }
 
+  bool _isRouteDatePassed(DateTime? routeDate) {
+    if (routeDate == null) return false;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final routeDateOnly = DateTime(
+      routeDate.year,
+      routeDate.month,
+      routeDate.day,
+    );
+    return routeDateOnly.isBefore(today);
+  }
+
+  void _handleRouteNavigation(Routes route) {
+    if (_isRouteDatePassed(route.date)) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Row(
+            children: [
+              Icon(Icons.error_outline, color: Colors.red, size: 28),
+              SizedBox(width: 12),
+              Text('Route Expired'),
+            ],
+          ),
+          content: Text(
+            'This route date has already passed. Please select a different route.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RouteDetailPage(route: route)),
+    );
+  }
+
   Widget _buildRouteCard(Routes route, bool isDark) {
     final theme = Theme.of(context);
 
@@ -622,12 +635,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
         child: InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => RouteDetailPage(route: route),
-              ),
-            );
+            _handleRouteNavigation(route);
           },
           borderRadius: BorderRadius.circular(20),
           child: Padding(
@@ -917,13 +925,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       ),
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  RouteDetailPage(route: route),
-                            ),
-                          );
+                          _handleRouteNavigation(route);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,

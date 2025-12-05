@@ -288,10 +288,14 @@ class _SignInPageState extends State<SignInPage> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your email';
+                                  return 'Email is required';
                                 }
-                                if (!value.contains('@')) {
-                                  return 'Please enter a valid email';
+                                // Comprehensive email validation
+                                final emailRegex = RegExp(
+                                  r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                                );
+                                if (!emailRegex.hasMatch(value)) {
+                                  return 'Enter a valid email address';
                                 }
                                 return null;
                               },

@@ -412,6 +412,7 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                         SizedBox(height: 20),
                         TextFormField(
                           controller: _originController,
+                          keyboardType: TextInputType.name,
                           decoration: InputDecoration(
                             labelText: 'Origin',
                             hintText: 'Enter origin city',
@@ -424,12 +425,19 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                             if (value == null || value.trim().isEmpty) {
                               return 'Please enter origin';
                             }
+                            if (value.trim().length < 2) {
+                              return 'Origin must be at least 2 characters';
+                            }
+                            if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value)) {
+                              return 'Only letters and spaces allowed';
+                            }
                             return null;
                           },
                         ),
                         SizedBox(height: 16),
                         TextFormField(
                           controller: _destinationController,
+                          keyboardType: TextInputType.name,
                           decoration: InputDecoration(
                             labelText: 'Destination',
                             hintText: 'Enter destination city',
@@ -441,6 +449,16 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
                               return 'Please enter destination';
+                            }
+                            if (value.trim().length < 2) {
+                              return 'Destination must be at least 2 characters';
+                            }
+                            if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value)) {
+                              return 'Only letters and spaces allowed';
+                            }
+                            if (value.trim().toLowerCase() ==
+                                _originController.text.trim().toLowerCase()) {
+                              return 'Destination must be different from origin';
                             }
                             return null;
                           },
@@ -523,8 +541,12 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                                     if (value == null || value.trim().isEmpty) {
                                       return 'Required';
                                     }
-                                    if (int.tryParse(value) == null) {
+                                    final tickets = int.tryParse(value);
+                                    if (tickets == null) {
                                       return 'Invalid number';
+                                    }
+                                    if (tickets < 0) {
+                                      return 'Cannot be negative';
                                     }
                                     return null;
                                   },
@@ -547,8 +569,12 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                                     if (value == null || value.trim().isEmpty) {
                                       return 'Required';
                                     }
-                                    if (int.tryParse(value) == null) {
+                                    final tickets = int.tryParse(value);
+                                    if (tickets == null) {
                                       return 'Invalid number';
+                                    }
+                                    if (tickets < 0) {
+                                      return 'Cannot be negative';
                                     }
                                     return null;
                                   },
@@ -571,8 +597,12 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                                     if (value == null || value.trim().isEmpty) {
                                       return 'Required';
                                     }
-                                    if (int.tryParse(value) == null) {
+                                    final tickets = int.tryParse(value);
+                                    if (tickets == null) {
                                       return 'Invalid number';
+                                    }
+                                    if (tickets < 0) {
+                                      return 'Cannot be negative';
                                     }
                                     return null;
                                   },
@@ -613,8 +643,12 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                                   if (value == null || value.trim().isEmpty) {
                                     return 'Required';
                                   }
-                                  if (double.tryParse(value) == null) {
+                                  final price = double.tryParse(value);
+                                  if (price == null) {
                                     return 'Invalid price';
+                                  }
+                                  if (price <= 0) {
+                                    return 'Price must be greater than 0';
                                   }
                                   return null;
                                 },
@@ -639,8 +673,12 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                                   if (value == null || value.trim().isEmpty) {
                                     return 'Required';
                                   }
-                                  if (double.tryParse(value) == null) {
+                                  final price = double.tryParse(value);
+                                  if (price == null) {
                                     return 'Invalid price';
+                                  }
+                                  if (price <= 0) {
+                                    return 'Price must be greater than 0';
                                   }
                                   return null;
                                 },
@@ -665,8 +703,12 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                                   if (value == null || value.trim().isEmpty) {
                                     return 'Required';
                                   }
-                                  if (double.tryParse(value) == null) {
+                                  final price = double.tryParse(value);
+                                  if (price == null) {
                                     return 'Invalid price';
+                                  }
+                                  if (price <= 0) {
+                                    return 'Price must be greater than 0';
                                   }
                                   return null;
                                 },

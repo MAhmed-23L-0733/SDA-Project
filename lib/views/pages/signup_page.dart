@@ -271,6 +271,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   Expanded(
                                     child: TextFormField(
                                       controller: _firstNameController,
+                                      keyboardType: TextInputType.name,
                                       decoration: InputDecoration(
                                         labelText: 'First Name',
                                         hintText: 'Randy',
@@ -290,7 +291,15 @@ class _SignUpPageState extends State<SignUpPage> {
                                       ),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Required';
+                                          return 'First name is required';
+                                        }
+                                        if (value.trim().length < 2) {
+                                          return 'Name must be at least 2 characters';
+                                        }
+                                        if (!RegExp(
+                                          r'^[a-zA-Z ]+$',
+                                        ).hasMatch(value)) {
+                                          return 'Only letters and spaces allowed';
                                         }
                                         return null;
                                       },
@@ -300,6 +309,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   Expanded(
                                     child: TextFormField(
                                       controller: _lastNameController,
+                                      keyboardType: TextInputType.name,
                                       decoration: InputDecoration(
                                         labelText: 'Last Name',
                                         hintText: 'Orton',
@@ -319,7 +329,15 @@ class _SignUpPageState extends State<SignUpPage> {
                                       ),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Required';
+                                          return 'Last name is required';
+                                        }
+                                        if (value.trim().length < 2) {
+                                          return 'Name must be at least 2 characters';
+                                        }
+                                        if (!RegExp(
+                                          r'^[a-zA-Z ]+$',
+                                        ).hasMatch(value)) {
+                                          return 'Only letters and spaces allowed';
                                         }
                                         return null;
                                       },
@@ -350,10 +368,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter your email';
+                                    return 'Email is required';
                                   }
-                                  if (!value.contains('@')) {
-                                    return 'Please enter a valid email';
+                                  // Comprehensive email validation
+                                  final emailRegex = RegExp(
+                                    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                                  );
+                                  if (!emailRegex.hasMatch(value)) {
+                                    return 'Enter a valid email address';
                                   }
                                   return null;
                                 },
@@ -361,10 +383,10 @@ class _SignUpPageState extends State<SignUpPage> {
                               const SizedBox(height: 20),
                               TextFormField(
                                 controller: _phonecontroller,
-                                keyboardType: TextInputType.text,
+                                keyboardType: TextInputType.phone,
                                 decoration: InputDecoration(
                                   labelText: 'Phone',
-                                  hintText: '',
+                                  hintText: '03XX-XXXXXXX',
                                   prefixIcon: Icon(
                                     Icons.phone,
                                     color: theme.colorScheme.primary,
@@ -379,7 +401,19 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter your phone';
+                                    return 'Phone number is required';
+                                  }
+                                  // Remove spaces and dashes for validation
+                                  final cleanedValue = value.replaceAll(
+                                    RegExp(r'[\s-]'),
+                                    '',
+                                  );
+
+                                  // Check if it's 11 digits starting with 03
+                                  if (!RegExp(
+                                    r'^03\d{9}$',
+                                  ).hasMatch(cleanedValue)) {
+                                    return 'Invalid format. Use: 03XX-XXXXXXX';
                                   }
                                   return null;
                                 },

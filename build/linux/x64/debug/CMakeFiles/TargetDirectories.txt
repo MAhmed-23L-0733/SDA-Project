@@ -25,13 +25,6 @@
 /home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/gtk/CMakeFiles/install.dir
 /home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/gtk/CMakeFiles/install/local.dir
 /home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/gtk/CMakeFiles/install/strip.dir
-/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing/CMakeFiles/printing_plugin.dir
-/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing/CMakeFiles/edit_cache.dir
-/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing/CMakeFiles/rebuild_cache.dir
-/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing/CMakeFiles/list_install_components.dir
-/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing/CMakeFiles/install.dir
-/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing/CMakeFiles/install/local.dir
-/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing/CMakeFiles/install/strip.dir
 /home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/url_launcher_linux/CMakeFiles/url_launcher_linux_plugin.dir
 /home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/url_launcher_linux/CMakeFiles/edit_cache.dir
 /home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/url_launcher_linux/CMakeFiles/rebuild_cache.dir

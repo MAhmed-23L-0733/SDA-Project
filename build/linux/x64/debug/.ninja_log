@@ -1,70 +1,61 @@
 # ninja log v5
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_value.h	2a483e86001f2187
-12302	16013	1764682764746013354	runner/CMakeFiles/flutter_template.dir/main.cc.o	b7fb6541d15674d3
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_standard_method_codec.h	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_response.h	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_message_codec.h	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_plugin_registrar.h	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_binary_messenger.h	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_basic_message_channel.h	2a483e86001f2187
-12702	13160	0	CMakeFiles/install.util	d9503092f2122bb2
-12302	16168	1764682764928077939	runner/CMakeFiles/flutter_template.dir/my_application.cc.o	a0aaf703f40e7922
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_json_method_codec.h	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/libflutter_linux_gtk.so	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_standard_message_codec.h	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/flutter_linux.h	2a483e86001f2187
-16231	16488	1764682765261196109	plugins/gtk/libgtk_plugin.so	cec73d5f34744c48
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_binary_codec.h	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_json_message_codec.h	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_engine.h	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_call.h	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_channel.h	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_string_codec.h	2a483e86001f2187
-14	12702	0	flutter/_phony_	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_codec.h	2a483e86001f2187
-12306	16226	1764682764976094972	plugins/gtk/CMakeFiles/gtk_plugin.dir/gtk_plugin.cc.o	7a8358d45ff12636
-12311	16189	1764682764937081133	plugins/url_launcher_linux/CMakeFiles/url_launcher_linux_plugin.dir/url_launcher_plugin.cc.o	3f90f5c73ef638b1
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_plugin_registry.h	2a483e86001f2187
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/flutter/_phony_	2a483e86001f2187
-16500	16772	1764682765544296535	intermediates_do_not_run/flutter_template	8ffd5b8b170c75a6
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_dart_project.h	2a483e86001f2187
-12306	16218	1764682764977426354	plugins/url_launcher_linux/CMakeFiles/url_launcher_linux_plugin.dir/messages.g.cc.o	257ad2c466e875b9
-14	12702	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_view.h	2a483e86001f2187
-16218	16499	1764682765274200722	plugins/url_launcher_linux/liburl_launcher_linux_plugin.so	7f3df13f1faaa627
-12305	16181	1764682764907070487	runner/CMakeFiles/flutter_template.dir/__/flutter/generated_plugin_registrant.cc.o	d76b5372effeeec9
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/libflutter_linux_gtk.so	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_basic_message_channel.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_binary_codec.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_binary_messenger.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_dart_project.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_engine.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_json_message_codec.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_json_method_codec.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_message_codec.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_call.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_channel.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_codec.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_response.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_plugin_registrar.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_plugin_registry.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_standard_message_codec.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_standard_method_codec.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_string_codec.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_value.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_view.h	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/flutter_linux.h	2a483e86001f2187
-8	38385	0	flutter/_phony_	2a483e86001f2187
-8	38385	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/flutter/_phony_	2a483e86001f2187
-38390	40399	1764862048522474228	runner/CMakeFiles/flutter_template.dir/__/flutter/generated_plugin_registrant.cc.o	1ad4a872a8f54841
-38386	42410	1764862050558679611	runner/CMakeFiles/flutter_template.dir/my_application.cc.o	7bdca3e70ffc8963
-38391	43081	1764862051247748415	plugins/gtk/CMakeFiles/gtk_plugin.dir/gtk_plugin.cc.o	7a8358d45ff12636
-38385	43433	1764862051590782498	runner/CMakeFiles/flutter_template.dir/main.cc.o	6f7c6c3c0fdc3f35
-40401	43779	1764862051899813203	plugins/url_launcher_linux/CMakeFiles/url_launcher_linux_plugin.dir/messages.g.cc.o	257ad2c466e875b9
-43087	43914	1764862052070830143	plugins/gtk/libgtk_plugin.so	cec73d5f34744c48
-38395	43949	1764862052101833200	plugins/printing/CMakeFiles/printing_plugin.dir/print_job.cc.o	cb706e382b7b0cdc
-38391	44429	1764862052591096976	plugins/printing/CMakeFiles/printing_plugin.dir/printing_plugin.cc.o	b11ecf43adf20403
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/flutter/_phony_	2a483e86001f2187
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_plugin_registry.h	2a483e86001f2187
 44429	44720	1764862052886910609	plugins/printing/libprinting_plugin.so	15e7c2dbde86815f
 42410	44915	1764862053083929973	plugins/url_launcher_linux/CMakeFiles/url_launcher_linux_plugin.dir/url_launcher_plugin.cc.o	3f90f5c73ef638b1
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_engine.h	2a483e86001f2187
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_call.h	2a483e86001f2187
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_channel.h	2a483e86001f2187
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_basic_message_channel.h	2a483e86001f2187
+24551	25905	0	CMakeFiles/install.util	d9503092f2122bb2
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_json_method_codec.h	2a483e86001f2187
+36378	38707	1764916427014220482	runner/CMakeFiles/flutter_template.dir/my_application.cc.o	a0aaf703f40e7922
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/libflutter_linux_gtk.so	2a483e86001f2187
+38391	44429	1764862052591096976	plugins/printing/CMakeFiles/printing_plugin.dir/printing_plugin.cc.o	b11ecf43adf20403
 44916	45148	1764862053320953165	plugins/url_launcher_linux/liburl_launcher_linux_plugin.so	7f3df13f1faaa627
-45148	45469	1764862053642984676	intermediates_do_not_run/flutter_template	ebcc8df22c04b0d1
-45469	45899	0	CMakeFiles/install.util	d9503092f2122bb2
+36384	38353	1764916426644552151	runner/CMakeFiles/flutter_template.dir/__/flutter/generated_plugin_registrant.cc.o	d76b5372effeeec9
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_string_codec.h	2a483e86001f2187
+144	24547	0	flutter/_phony_	2a483e86001f2187
+38391	43081	1764862051247748415	plugins/gtk/CMakeFiles/gtk_plugin.dir/gtk_plugin.cc.o	7a8358d45ff12636
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_codec.h	2a483e86001f2187
+38707	39062	1764916427378421762	intermediates_do_not_run/flutter_template	8ffd5b8b170c75a6
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_dart_project.h	2a483e86001f2187
+40401	43779	1764862051899813203	plugins/url_launcher_linux/CMakeFiles/url_launcher_linux_plugin.dir/messages.g.cc.o	257ad2c466e875b9
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_standard_message_codec.h	2a483e86001f2187
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_view.h	2a483e86001f2187
+38395	43949	1764862052101833200	plugins/printing/CMakeFiles/printing_plugin.dir/print_job.cc.o	cb706e382b7b0cdc
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_message_codec.h	2a483e86001f2187
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_plugin_registrar.h	2a483e86001f2187
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/flutter_linux.h	2a483e86001f2187
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_response.h	2a483e86001f2187
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_standard_method_codec.h	2a483e86001f2187
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_value.h	2a483e86001f2187
+36377	38359	1764916426663025766	runner/CMakeFiles/flutter_template.dir/main.cc.o	b7fb6541d15674d3
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_binary_codec.h	2a483e86001f2187
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_json_message_codec.h	2a483e86001f2187
+43087	43914	1764862052070830143	plugins/gtk/libgtk_plugin.so	cec73d5f34744c48
+144	24547	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_binary_messenger.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/libflutter_linux_gtk.so	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_basic_message_channel.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_binary_codec.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_binary_messenger.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_dart_project.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_engine.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_json_message_codec.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_json_method_codec.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_message_codec.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_call.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_channel.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_codec.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_method_response.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_plugin_registrar.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_plugin_registry.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_standard_message_codec.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_standard_method_codec.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_string_codec.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_value.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/fl_view.h	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/flutter_linux/flutter_linux.h	2a483e86001f2187
+36	14983	0	flutter/_phony_	2a483e86001f2187
+36	14983	0	/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/flutter/_phony_	2a483e86001f2187
+14988	16195	0	CMakeFiles/install.util	d9503092f2122bb2

@@ -208,13 +208,13 @@ build /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/
 #############################################
 # Order-only phony target for flutter_template
 
-build cmake_object_order_depends_target_flutter_template: phony || cmake_object_order_depends_target_gtk_plugin cmake_object_order_depends_target_printing_plugin cmake_object_order_depends_target_url_launcher_linux_plugin flutter/flutter_assemble
+build cmake_object_order_depends_target_flutter_template: phony || cmake_object_order_depends_target_gtk_plugin cmake_object_order_depends_target_url_launcher_linux_plugin flutter/flutter_assemble
 
 build runner/CMakeFiles/flutter_template.dir/main.cc.o: CXX_COMPILER__flutter_template_unscanned_Debug /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/runner/main.cc || cmake_object_order_depends_target_flutter_template
   DEFINES = -DAPPLICATION_ID=\"com.example.flutter_template\"
   DEP_FILE = runner/CMakeFiles/flutter_template.dir/main.cc.o.d
   FLAGS = -g -Wall -Werror -pthread
-  INCLUDES = -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/gtk/linux/include" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/printing/linux/include" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/linux/include" -isystem /usr/include/gtk-3.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/harfbuzz -isystem /usr/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/gio-unix-2.0 -isystem /usr/include/atk-1.0 -isystem /usr/include/at-spi2-atk/2.0 -isystem /usr/include/at-spi-2.0 -isystem /usr/include/dbus-1.0 -isystem /usr/lib/x86_64-linux-gnu/dbus-1.0/include
+  INCLUDES = -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/gtk/linux/include" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/linux/include" -isystem /usr/include/gtk-3.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/harfbuzz -isystem /usr/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/gio-unix-2.0 -isystem /usr/include/atk-1.0 -isystem /usr/include/at-spi2-atk/2.0 -isystem /usr/include/at-spi-2.0 -isystem /usr/include/dbus-1.0 -isystem /usr/lib/x86_64-linux-gnu/dbus-1.0/include
   OBJECT_DIR = runner/CMakeFiles/flutter_template.dir
   OBJECT_FILE_DIR = runner/CMakeFiles/flutter_template.dir
 
@@ -222,7 +222,7 @@ build runner/CMakeFiles/flutter_template.dir/my_application.cc.o: CXX_COMPILER__
   DEFINES = -DAPPLICATION_ID=\"com.example.flutter_template\"
   DEP_FILE = runner/CMakeFiles/flutter_template.dir/my_application.cc.o.d
   FLAGS = -g -Wall -Werror -pthread
-  INCLUDES = -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/gtk/linux/include" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/printing/linux/include" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/linux/include" -isystem /usr/include/gtk-3.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/harfbuzz -isystem /usr/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/gio-unix-2.0 -isystem /usr/include/atk-1.0 -isystem /usr/include/at-spi2-atk/2.0 -isystem /usr/include/at-spi-2.0 -isystem /usr/include/dbus-1.0 -isystem /usr/lib/x86_64-linux-gnu/dbus-1.0/include
+  INCLUDES = -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/gtk/linux/include" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/linux/include" -isystem /usr/include/gtk-3.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/harfbuzz -isystem /usr/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/gio-unix-2.0 -isystem /usr/include/atk-1.0 -isystem /usr/include/at-spi2-atk/2.0 -isystem /usr/include/at-spi-2.0 -isystem /usr/include/dbus-1.0 -isystem /usr/lib/x86_64-linux-gnu/dbus-1.0/include
   OBJECT_DIR = runner/CMakeFiles/flutter_template.dir
   OBJECT_FILE_DIR = runner/CMakeFiles/flutter_template.dir
 
@@ -230,7 +230,7 @@ build runner/CMakeFiles/flutter_template.dir/__/flutter/generated_plugin_registr
   DEFINES = -DAPPLICATION_ID=\"com.example.flutter_template\"
   DEP_FILE = runner/CMakeFiles/flutter_template.dir/__/flutter/generated_plugin_registrant.cc.o.d
   FLAGS = -g -Wall -Werror -pthread
-  INCLUDES = -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/gtk/linux/include" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/printing/linux/include" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/linux/include" -isystem /usr/include/gtk-3.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/harfbuzz -isystem /usr/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/gio-unix-2.0 -isystem /usr/include/atk-1.0 -isystem /usr/include/at-spi2-atk/2.0 -isystem /usr/include/at-spi-2.0 -isystem /usr/include/dbus-1.0 -isystem /usr/lib/x86_64-linux-gnu/dbus-1.0/include
+  INCLUDES = -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/gtk/linux/include" -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/linux/include" -isystem /usr/include/gtk-3.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/harfbuzz -isystem /usr/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/gio-unix-2.0 -isystem /usr/include/atk-1.0 -isystem /usr/include/at-spi2-atk/2.0 -isystem /usr/include/at-spi-2.0 -isystem /usr/include/dbus-1.0 -isystem /usr/lib/x86_64-linux-gnu/dbus-1.0/include
   OBJECT_DIR = runner/CMakeFiles/flutter_template.dir
   OBJECT_FILE_DIR = runner/CMakeFiles/flutter_template.dir/__/flutter
 
@@ -242,9 +242,9 @@ build runner/CMakeFiles/flutter_template.dir/__/flutter/generated_plugin_registr
 #############################################
 # Link the executable intermediates_do_not_run/flutter_template
 
-build intermediates_do_not_run/flutter_template: CXX_EXECUTABLE_LINKER__flutter_template_Debug runner/CMakeFiles/flutter_template.dir/main.cc.o runner/CMakeFiles/flutter_template.dir/my_application.cc.o runner/CMakeFiles/flutter_template.dir/__/flutter/generated_plugin_registrant.cc.o | plugins/gtk/libgtk_plugin.so plugins/printing/libprinting_plugin.so plugins/url_launcher_linux/liburl_launcher_linux_plugin.so /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/libflutter_linux_gtk.so /usr/lib/x86_64-linux-gnu/libgtk-3.so /usr/lib/x86_64-linux-gnu/libgdk-3.so /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so /usr/lib/x86_64-linux-gnu/libpango-1.0.so /usr/lib/x86_64-linux-gnu/libharfbuzz.so /usr/lib/x86_64-linux-gnu/libatk-1.0.so /usr/lib/x86_64-linux-gnu/libcairo-gobject.so /usr/lib/x86_64-linux-gnu/libcairo.so /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so /usr/lib/x86_64-linux-gnu/libgio-2.0.so /usr/lib/x86_64-linux-gnu/libgobject-2.0.so /usr/lib/x86_64-linux-gnu/libglib-2.0.so || flutter/flutter_assemble plugins/gtk/libgtk_plugin.so plugins/printing/libprinting_plugin.so plugins/url_launcher_linux/liburl_launcher_linux_plugin.so
+build intermediates_do_not_run/flutter_template: CXX_EXECUTABLE_LINKER__flutter_template_Debug runner/CMakeFiles/flutter_template.dir/main.cc.o runner/CMakeFiles/flutter_template.dir/my_application.cc.o runner/CMakeFiles/flutter_template.dir/__/flutter/generated_plugin_registrant.cc.o | plugins/gtk/libgtk_plugin.so plugins/url_launcher_linux/liburl_launcher_linux_plugin.so /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/libflutter_linux_gtk.so /usr/lib/x86_64-linux-gnu/libgtk-3.so /usr/lib/x86_64-linux-gnu/libgdk-3.so /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so /usr/lib/x86_64-linux-gnu/libpango-1.0.so /usr/lib/x86_64-linux-gnu/libharfbuzz.so /usr/lib/x86_64-linux-gnu/libatk-1.0.so /usr/lib/x86_64-linux-gnu/libcairo-gobject.so /usr/lib/x86_64-linux-gnu/libcairo.so /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so /usr/lib/x86_64-linux-gnu/libgio-2.0.so /usr/lib/x86_64-linux-gnu/libgobject-2.0.so /usr/lib/x86_64-linux-gnu/libglib-2.0.so || flutter/flutter_assemble plugins/gtk/libgtk_plugin.so plugins/url_launcher_linux/liburl_launcher_linux_plugin.so
   FLAGS = -g
-  LINK_LIBRARIES = -Wl,-rpath,"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/gtk:/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing:/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/url_launcher_linux:/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral:/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/pdfium-src/lib:"  plugins/gtk/libgtk_plugin.so  plugins/printing/libprinting_plugin.so  plugins/url_launcher_linux/liburl_launcher_linux_plugin.so  "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/libflutter_linux_gtk.so"  /usr/lib/x86_64-linux-gnu/libgtk-3.so  /usr/lib/x86_64-linux-gnu/libgdk-3.so  /usr/lib/x86_64-linux-gnu/libz.so  /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so  /usr/lib/x86_64-linux-gnu/libpango-1.0.so  /usr/lib/x86_64-linux-gnu/libharfbuzz.so  /usr/lib/x86_64-linux-gnu/libatk-1.0.so  /usr/lib/x86_64-linux-gnu/libcairo-gobject.so  /usr/lib/x86_64-linux-gnu/libcairo.so  /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so  /usr/lib/x86_64-linux-gnu/libgio-2.0.so  /usr/lib/x86_64-linux-gnu/libgobject-2.0.so  /usr/lib/x86_64-linux-gnu/libglib-2.0.so  -Wl,-rpath-link,"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/pdfium-src/lib"
+  LINK_LIBRARIES = -Wl,-rpath,"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/gtk:/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/url_launcher_linux:/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral:"  plugins/gtk/libgtk_plugin.so  plugins/url_launcher_linux/liburl_launcher_linux_plugin.so  "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/libflutter_linux_gtk.so"  /usr/lib/x86_64-linux-gnu/libgtk-3.so  /usr/lib/x86_64-linux-gnu/libgdk-3.so  /usr/lib/x86_64-linux-gnu/libz.so  /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so  /usr/lib/x86_64-linux-gnu/libpango-1.0.so  /usr/lib/x86_64-linux-gnu/libharfbuzz.so  /usr/lib/x86_64-linux-gnu/libatk-1.0.so  /usr/lib/x86_64-linux-gnu/libcairo-gobject.so  /usr/lib/x86_64-linux-gnu/libcairo.so  /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so  /usr/lib/x86_64-linux-gnu/libgio-2.0.so  /usr/lib/x86_64-linux-gnu/libgobject-2.0.so  /usr/lib/x86_64-linux-gnu/libglib-2.0.so
   OBJECT_DIR = runner/CMakeFiles/flutter_template.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -428,120 +428,6 @@ build plugins/gtk/install/strip: phony plugins/gtk/CMakeFiles/install/strip.util
 # =============================================================================
 
 # =============================================================================
-# Object build statements for SHARED_LIBRARY target printing_plugin
-
-
-#############################################
-# Order-only phony target for printing_plugin
-
-build cmake_object_order_depends_target_printing_plugin: phony || flutter/flutter_assemble
-
-build plugins/printing/CMakeFiles/printing_plugin.dir/printing_plugin.cc.o: CXX_COMPILER__printing_plugin_unscanned_Debug /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/printing/linux/printing_plugin.cc || cmake_object_order_depends_target_printing_plugin
-  DEFINES = -DFLUTTER_PLUGIN_IMPL -Dprinting_plugin_EXPORTS
-  DEP_FILE = plugins/printing/CMakeFiles/printing_plugin.dir/printing_plugin.cc.o.d
-  FLAGS = -g -fPIC -fvisibility=hidden -Wall -Werror -pthread
-  INCLUDES = -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral" -isystem /usr/include/gtk-3.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/harfbuzz -isystem /usr/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/gio-unix-2.0 -isystem /usr/include/atk-1.0 -isystem /usr/include/at-spi2-atk/2.0 -isystem /usr/include/at-spi-2.0 -isystem /usr/include/dbus-1.0 -isystem /usr/lib/x86_64-linux-gnu/dbus-1.0/include -isystem /usr/include/gtk-3.0/unix-print -isystem "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/pdfium-src/include" -isystem "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/pdfium-src/include/cpp"
-  OBJECT_DIR = plugins/printing/CMakeFiles/printing_plugin.dir
-  OBJECT_FILE_DIR = plugins/printing/CMakeFiles/printing_plugin.dir
-
-build plugins/printing/CMakeFiles/printing_plugin.dir/print_job.cc.o: CXX_COMPILER__printing_plugin_unscanned_Debug /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/printing/linux/print_job.cc || cmake_object_order_depends_target_printing_plugin
-  DEFINES = -DFLUTTER_PLUGIN_IMPL -Dprinting_plugin_EXPORTS
-  DEP_FILE = plugins/printing/CMakeFiles/printing_plugin.dir/print_job.cc.o.d
-  FLAGS = -g -fPIC -fvisibility=hidden -Wall -Werror -pthread
-  INCLUDES = -I"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral" -isystem /usr/include/gtk-3.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/harfbuzz -isystem /usr/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/gio-unix-2.0 -isystem /usr/include/atk-1.0 -isystem /usr/include/at-spi2-atk/2.0 -isystem /usr/include/at-spi-2.0 -isystem /usr/include/dbus-1.0 -isystem /usr/lib/x86_64-linux-gnu/dbus-1.0/include -isystem /usr/include/gtk-3.0/unix-print -isystem "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/pdfium-src/include" -isystem "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/pdfium-src/include/cpp"
-  OBJECT_DIR = plugins/printing/CMakeFiles/printing_plugin.dir
-  OBJECT_FILE_DIR = plugins/printing/CMakeFiles/printing_plugin.dir
-
-
-# =============================================================================
-# Link build statements for SHARED_LIBRARY target printing_plugin
-
-
-#############################################
-# Link the shared library plugins/printing/libprinting_plugin.so
-
-build plugins/printing/libprinting_plugin.so: CXX_SHARED_LIBRARY_LINKER__printing_plugin_Debug plugins/printing/CMakeFiles/printing_plugin.dir/printing_plugin.cc.o plugins/printing/CMakeFiles/printing_plugin.dir/print_job.cc.o | pdfium-src/lib/libpdfium.so /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/libflutter_linux_gtk.so /usr/lib/x86_64-linux-gnu/libgtk-3.so /usr/lib/x86_64-linux-gnu/libgdk-3.so /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so /usr/lib/x86_64-linux-gnu/libpango-1.0.so /usr/lib/x86_64-linux-gnu/libharfbuzz.so /usr/lib/x86_64-linux-gnu/libatk-1.0.so /usr/lib/x86_64-linux-gnu/libcairo-gobject.so /usr/lib/x86_64-linux-gnu/libcairo.so /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so /usr/lib/x86_64-linux-gnu/libgio-2.0.so /usr/lib/x86_64-linux-gnu/libgobject-2.0.so /usr/lib/x86_64-linux-gnu/libglib-2.0.so || flutter/flutter_assemble
-  LANGUAGE_COMPILE_FLAGS = -g
-  LINK_LIBRARIES = -Wl,-rpath,"\$$ORIGIN:/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/pdfium-src/lib"  pdfium-src/lib/libpdfium.so  "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/ephemeral/libflutter_linux_gtk.so"  /usr/lib/x86_64-linux-gnu/libgtk-3.so  /usr/lib/x86_64-linux-gnu/libgdk-3.so  /usr/lib/x86_64-linux-gnu/libz.so  /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so  /usr/lib/x86_64-linux-gnu/libpango-1.0.so  /usr/lib/x86_64-linux-gnu/libharfbuzz.so  /usr/lib/x86_64-linux-gnu/libatk-1.0.so  /usr/lib/x86_64-linux-gnu/libcairo-gobject.so  /usr/lib/x86_64-linux-gnu/libcairo.so  /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so  /usr/lib/x86_64-linux-gnu/libgio-2.0.so  /usr/lib/x86_64-linux-gnu/libgobject-2.0.so  /usr/lib/x86_64-linux-gnu/libglib-2.0.so
-  OBJECT_DIR = plugins/printing/CMakeFiles/printing_plugin.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  SONAME = libprinting_plugin.so
-  SONAME_FLAG = -Wl,-soname,
-  TARGET_FILE = plugins/printing/libprinting_plugin.so
-  TARGET_PDB = printing_plugin.so.dbg
-
-
-#############################################
-# Utility command for edit_cache
-
-build plugins/printing/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing" && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-  DESC = No interactive CMake dialog available...
-  restat = 1
-
-build plugins/printing/edit_cache: phony plugins/printing/CMakeFiles/edit_cache.util
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build plugins/printing/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing" && /usr/bin/cmake --regenerate-during-build -S"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux" -B"/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug"
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build plugins/printing/rebuild_cache: phony plugins/printing/CMakeFiles/rebuild_cache.util
-
-
-#############################################
-# Utility command for list_install_components
-
-build plugins/printing/list_install_components: phony
-
-
-#############################################
-# Utility command for install
-
-build plugins/printing/CMakeFiles/install.util: CUSTOM_COMMAND plugins/printing/all
-  COMMAND = cd "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing" && /usr/bin/cmake -P cmake_install.cmake
-  DESC = Install the project...
-  pool = console
-  restat = 1
-
-build plugins/printing/install: phony plugins/printing/CMakeFiles/install.util
-
-
-#############################################
-# Utility command for install/local
-
-build plugins/printing/CMakeFiles/install/local.util: CUSTOM_COMMAND plugins/printing/all
-  COMMAND = cd "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing" && /usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-  DESC = Installing only the local directory...
-  pool = console
-  restat = 1
-
-build plugins/printing/install/local: phony plugins/printing/CMakeFiles/install/local.util
-
-
-#############################################
-# Utility command for install/strip
-
-build plugins/printing/CMakeFiles/install/strip.util: CUSTOM_COMMAND plugins/printing/all
-  COMMAND = cd "/home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing" && /usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-  DESC = Installing the project stripped...
-  pool = console
-  restat = 1
-
-build plugins/printing/install/strip: phony plugins/printing/CMakeFiles/install/strip.util
-
-# =============================================================================
-# Write statements declared in CMakeLists.txt:
-# /home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/linux/flutter/generated_plugins.cmake
-# =============================================================================
-
-# =============================================================================
 # Object build statements for SHARED_LIBRARY target url_launcher_linux_plugin
 
 
@@ -661,11 +547,7 @@ build gtk_plugin: phony plugins/gtk/libgtk_plugin.so
 
 build libgtk_plugin.so: phony plugins/gtk/libgtk_plugin.so
 
-build libprinting_plugin.so: phony plugins/printing/libprinting_plugin.so
-
 build liburl_launcher_linux_plugin.so: phony plugins/url_launcher_linux/liburl_launcher_linux_plugin.so
-
-build printing_plugin: phony plugins/printing/libprinting_plugin.so
 
 build url_launcher_linux_plugin: phony plugins/url_launcher_linux/liburl_launcher_linux_plugin.so
 
@@ -677,7 +559,7 @@ build url_launcher_linux_plugin: phony plugins/url_launcher_linux/liburl_launche
 #############################################
 # Folder: /home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug
 
-build all: phony flutter/all runner/all plugins/gtk/all plugins/printing/all plugins/url_launcher_linux/all
+build all: phony flutter/all runner/all plugins/gtk/all plugins/url_launcher_linux/all
 
 # =============================================================================
 
@@ -692,13 +574,6 @@ build flutter/all: phony
 # Folder: /home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/gtk
 
 build plugins/gtk/all: phony plugins/gtk/libgtk_plugin.so
-
-# =============================================================================
-
-#############################################
-# Folder: /home/muhammad-ahmed/Documents/Semester 5/SDA/SDA Project/build/linux/x64/debug/plugins/printing
-
-build plugins/printing/all: phony plugins/printing/libprinting_plugin.so
 
 # =============================================================================
 
@@ -721,14 +596,14 @@ build runner/all: phony intermediates_do_not_run/flutter_template
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/gtk/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/printing/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/printing/windows/DownloadProject.CMakeLists.cmake.in /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/printing/windows/DownloadProject.cmake /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/generated_config.cmake /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/generated_plugins.cmake /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/runner/CMakeLists.txt /usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.28/Modules/CMakeParseArguments.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.28/Modules/Compiler/Clang-CXX.cmake /usr/share/cmake-3.28/Modules/Compiler/Clang.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU.cmake /usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.28/Modules/FindPackageMessage.cmake /usr/share/cmake-3.28/Modules/FindPkgConfig.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Clang-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake-3.28/Modules/Platform/Linux.cmake /usr/share/cmake-3.28/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.28.3/CMakeCXXCompiler.cmake CMakeFiles/3.28.3/CMakeSystem.cmake pdfium-src/PDFiumConfig.cmake
+build build.ninja: RERUN_CMAKE | /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/gtk/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/generated_config.cmake /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/generated_plugins.cmake /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/runner/CMakeLists.txt /usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.28/Modules/Compiler/Clang-CXX.cmake /usr/share/cmake-3.28/Modules/Compiler/Clang.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU.cmake /usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.28/Modules/FindPackageMessage.cmake /usr/share/cmake-3.28/Modules/FindPkgConfig.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Clang-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake-3.28/Modules/Platform/Linux.cmake /usr/share/cmake-3.28/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.28.3/CMakeCXXCompiler.cmake CMakeFiles/3.28.3/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/gtk/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/printing/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/printing/windows/DownloadProject.CMakeLists.cmake.in /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/printing/windows/DownloadProject.cmake /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/generated_config.cmake /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/generated_plugins.cmake /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/runner/CMakeLists.txt /usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.28/Modules/CMakeParseArguments.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.28/Modules/Compiler/Clang-CXX.cmake /usr/share/cmake-3.28/Modules/Compiler/Clang.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU.cmake /usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.28/Modules/FindPackageMessage.cmake /usr/share/cmake-3.28/Modules/FindPkgConfig.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Clang-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake-3.28/Modules/Platform/Linux.cmake /usr/share/cmake-3.28/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.28.3/CMakeCXXCompiler.cmake CMakeFiles/3.28.3/CMakeSystem.cmake pdfium-src/PDFiumConfig.cmake: phony
+build /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/gtk/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/linux/CMakeLists.txt /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/ephemeral/generated_config.cmake /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/flutter/generated_plugins.cmake /home/muhammad-ahmed/Documents/Semester$ 5/SDA/SDA$ Project/linux/runner/CMakeLists.txt /usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.28/Modules/Compiler/Clang-CXX.cmake /usr/share/cmake-3.28/Modules/Compiler/Clang.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU.cmake /usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.28/Modules/FindPackageMessage.cmake /usr/share/cmake-3.28/Modules/FindPkgConfig.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Clang-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake-3.28/Modules/Platform/Linux.cmake /usr/share/cmake-3.28/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.28.3/CMakeCXXCompiler.cmake CMakeFiles/3.28.3/CMakeSystem.cmake: phony
 
 
 #############################################
