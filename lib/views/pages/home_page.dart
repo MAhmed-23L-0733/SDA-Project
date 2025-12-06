@@ -59,7 +59,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       if (!mounted) return;
 
       setState(() {
-        _allRoutes = data.map((json) => Routes.fromJson(json)).toList();
+        // Filter out expired routes for customers
+        final now = DateTime.now();
+        final today = DateTime(now.year, now.month, now.day);
+
+        _allRoutes = data.map((json) => Routes.fromJson(json)).where((route) {
+          // Only show routes that haven't passed
+          if (route.date == null) return true;
+          final routeDate = DateTime(
+            route.date!.year,
+            route.date!.month,
+            route.date!.day,
+          );
+          return !routeDate.isBefore(today);
+        }).toList();
         _routes = List.from(_allRoutes); // Initialize displayed routes
         _isLoading = false;
       });
@@ -616,6 +629,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Widget _buildRouteCard(Routes route, bool isDark) {
     final theme = Theme.of(context);
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
@@ -639,161 +653,331 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           },
           borderRadius: BorderRadius.circular(20),
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(isSmallScreen ? 16 : 24),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    // Origin
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(
-                            theme.colorScheme.primary.red,
-                            theme.colorScheme.primary.green,
-                            theme.colorScheme.primary.blue,
-                            0.05,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: Color.fromRGBO(
-                              theme.colorScheme.primary.red,
-                              theme.colorScheme.primary.green,
-                              theme.colorScheme.primary.blue,
-                              0.2,
-                            ),
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.radio_button_checked,
-                                  color: Colors.greenAccent,
-                                  size: 16,
+                isSmallScreen
+                    ? Column(
+                        children: [
+                          // Origin
+                          Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(
+                                theme.colorScheme.primary.red,
+                                theme.colorScheme.primary.green,
+                                theme.colorScheme.primary.blue,
+                                0.05,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Color.fromRGBO(
+                                  theme.colorScheme.primary.red,
+                                  theme.colorScheme.primary.green,
+                                  theme.colorScheme.primary.blue,
+                                  0.2,
                                 ),
-                                const SizedBox(width: 8),
+                              ),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.radio_button_checked,
+                                      color: Colors.greenAccent,
+                                      size: 14,
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'From',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: isDark
+                                            ? Colors.white60
+                                            : Colors.black54,
+                                        letterSpacing: 1,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 4),
                                 Text(
-                                  'From',
+                                  route.origin ?? 'Unknown',
                                   style: TextStyle(
-                                    fontSize: 11,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
                                     color: isDark
-                                        ? Colors.white60
-                                        : Colors.black54,
-                                    letterSpacing: 1,
+                                        ? Colors.white
+                                        : Colors.black87,
                                   ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              route.origin ?? 'Unknown',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: isDark ? Colors.white : Colors.black87,
+                          ),
+                          SizedBox(height: 12),
+                          // Train icon centered
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  theme.colorScheme.primary,
+                                  theme.colorScheme.secondary,
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(14),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(
+                                    theme.colorScheme.primary.red,
+                                    theme.colorScheme.primary.green,
+                                    theme.colorScheme.primary.blue,
+                                    0.3,
+                                  ),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Icon(
+                              Icons.train,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          // Destination
+                          Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(
+                                theme.colorScheme.primary.red,
+                                theme.colorScheme.primary.green,
+                                theme.colorScheme.primary.blue,
+                                0.05,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Color.fromRGBO(
+                                  theme.colorScheme.primary.red,
+                                  theme.colorScheme.primary.green,
+                                  theme.colorScheme.primary.blue,
+                                  0.2,
+                                ),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(width: 16),
-
-                    // Train icon
-                    Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            theme.colorScheme.primary,
-                            theme.colorScheme.secondary,
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(14),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromRGBO(
-                              theme.colorScheme.primary.red,
-                              theme.colorScheme.primary.green,
-                              theme.colorScheme.primary.blue,
-                              0.3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      color: Colors.redAccent,
+                                      size: 14,
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'To',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: isDark
+                                            ? Colors.white60
+                                            : Colors.black54,
+                                        letterSpacing: 1,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  route.destination ?? 'Unknown',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: isDark
+                                        ? Colors.white
+                                        : Colors.black87,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                ),
+                              ],
                             ),
-                            blurRadius: 8,
-                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        children: [
+                          // Origin
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(
+                                  theme.colorScheme.primary.red,
+                                  theme.colorScheme.primary.green,
+                                  theme.colorScheme.primary.blue,
+                                  0.05,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Color.fromRGBO(
+                                    theme.colorScheme.primary.red,
+                                    theme.colorScheme.primary.green,
+                                    theme.colorScheme.primary.blue,
+                                    0.2,
+                                  ),
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.radio_button_checked,
+                                        color: Colors.greenAccent,
+                                        size: 16,
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'From',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: isDark
+                                              ? Colors.white60
+                                              : Colors.black54,
+                                          letterSpacing: 1,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    route.origin ?? 'Unknown',
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: isDark
+                                          ? Colors.white
+                                          : Colors.black87,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(width: 16),
+
+                          // Train icon
+                          Container(
+                            padding: EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  theme.colorScheme.primary,
+                                  theme.colorScheme.secondary,
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(14),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(
+                                    theme.colorScheme.primary.red,
+                                    theme.colorScheme.primary.green,
+                                    theme.colorScheme.primary.blue,
+                                    0.3,
+                                  ),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Icon(
+                              Icons.train,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                          ),
+
+                          SizedBox(width: 16),
+
+                          // Destination
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(
+                                  theme.colorScheme.primary.red,
+                                  theme.colorScheme.primary.green,
+                                  theme.colorScheme.primary.blue,
+                                  0.05,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Color.fromRGBO(
+                                    theme.colorScheme.primary.red,
+                                    theme.colorScheme.primary.green,
+                                    theme.colorScheme.primary.blue,
+                                    0.2,
+                                  ),
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'To',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: isDark
+                                              ? Colors.white60
+                                              : Colors.black54,
+                                          letterSpacing: 1,
+                                        ),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Icon(
+                                        Icons.location_on,
+                                        color: Colors.redAccent,
+                                        size: 16,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    route.destination ?? 'Unknown',
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: isDark
+                                          ? Colors.white
+                                          : Colors.black87,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                      child: Icon(Icons.train, color: Colors.white, size: 28),
-                    ),
-
-                    const SizedBox(width: 16),
-
-                    // Destination
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(
-                            theme.colorScheme.primary.red,
-                            theme.colorScheme.primary.green,
-                            theme.colorScheme.primary.blue,
-                            0.05,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: Color.fromRGBO(
-                              theme.colorScheme.primary.red,
-                              theme.colorScheme.primary.green,
-                              theme.colorScheme.primary.blue,
-                              0.2,
-                            ),
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  'To',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    color: isDark
-                                        ? Colors.white60
-                                        : Colors.black54,
-                                    letterSpacing: 1,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Icon(
-                                  Icons.location_on,
-                                  color: Colors.redAccent,
-                                  size: 16,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              route.destination ?? 'Unknown',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: isDark ? Colors.white : Colors.black87,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
+                SizedBox(height: isSmallScreen ? 12 : 20),
                 Divider(
                   color: Color.fromRGBO(
                     theme.colorScheme.primary.red,
@@ -803,161 +987,342 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                   thickness: 1,
                 ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Date & Time
-                    Row(
-                      spacing: 10,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Color.fromRGBO(
-                              theme.colorScheme.primary.red,
-                              theme.colorScheme.primary.green,
-                              theme.colorScheme.primary.blue,
-                              0.1,
-                            ),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Color.fromRGBO(
-                                theme.colorScheme.primary.red,
-                                theme.colorScheme.primary.green,
-                                theme.colorScheme.primary.blue,
-                                0.3,
-                              ),
-                            ),
-                          ),
-                          child: Row(
+                SizedBox(height: isSmallScreen ? 12 : 20),
+                isSmallScreen
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          // Date & Time in one row
+                          Row(
                             children: [
-                              Icon(
-                                Icons.calendar_today,
-                                color: theme.colorScheme.primary,
-                                size: 18,
+                              Expanded(
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(
+                                      theme.colorScheme.primary.red,
+                                      theme.colorScheme.primary.green,
+                                      theme.colorScheme.primary.blue,
+                                      0.1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: Color.fromRGBO(
+                                        theme.colorScheme.primary.red,
+                                        theme.colorScheme.primary.green,
+                                        theme.colorScheme.primary.blue,
+                                        0.3,
+                                      ),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.calendar_today,
+                                        color: theme.colorScheme.primary,
+                                        size: 16,
+                                      ),
+                                      SizedBox(width: 6),
+                                      Flexible(
+                                        child: Text(
+                                          route.date != null
+                                              ? '${route.date!.day}/${route.date!.month}/${route.date!.year}'
+                                              : 'No date',
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                            color: isDark
+                                                ? Colors.white
+                                                : Colors.black87,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                              const SizedBox(width: 10),
-                              Text(
-                                route.date != null
-                                    ? '${route.date!.day}/${route.date!.month}/${route.date!.year}'
-                                    : 'No date',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: isDark ? Colors.white : Colors.black87,
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(
+                                      theme.colorScheme.primary.red,
+                                      theme.colorScheme.primary.green,
+                                      theme.colorScheme.primary.blue,
+                                      0.1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: Color.fromRGBO(
+                                        theme.colorScheme.primary.red,
+                                        theme.colorScheme.primary.green,
+                                        theme.colorScheme.primary.blue,
+                                        0.3,
+                                      ),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.departure_board,
+                                        color: theme.colorScheme.primary,
+                                        size: 16,
+                                      ),
+                                      SizedBox(width: 6),
+                                      Flexible(
+                                        child: Text(
+                                          route.time != null
+                                              ? _formatTime(route.time ?? "")
+                                              : 'No Time',
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                            color: isDark
+                                                ? Colors.white
+                                                : Colors.black87,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Color.fromRGBO(
-                              theme.colorScheme.primary.red,
-                              theme.colorScheme.primary.green,
-                              theme.colorScheme.primary.blue,
-                              0.1,
+                          SizedBox(height: 12),
+                          // Book Button - Full width
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  theme.colorScheme.primary,
+                                  theme.colorScheme.secondary,
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(14),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(
+                                    theme.colorScheme.primary.red,
+                                    theme.colorScheme.primary.green,
+                                    theme.colorScheme.primary.blue,
+                                    0.3,
+                                  ),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
                             ),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Color.fromRGBO(
-                                theme.colorScheme.primary.red,
-                                theme.colorScheme.primary.green,
-                                theme.colorScheme.primary.blue,
-                                0.3,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _handleRouteNavigation(route);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                foregroundColor: Colors.white,
+                                shadowColor: Colors.transparent,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 12,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                elevation: 0,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.bookmark, size: 18),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Book Now',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                          child: Row(
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Date & Time
+                          Wrap(
+                            spacing: 10,
+                            runSpacing: 10,
                             children: [
-                              Icon(
-                                Icons.departure_board,
-                                color: theme.colorScheme.primary,
-                                size: 18,
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Color.fromRGBO(
+                                    theme.colorScheme.primary.red,
+                                    theme.colorScheme.primary.green,
+                                    theme.colorScheme.primary.blue,
+                                    0.1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Color.fromRGBO(
+                                      theme.colorScheme.primary.red,
+                                      theme.colorScheme.primary.green,
+                                      theme.colorScheme.primary.blue,
+                                      0.3,
+                                    ),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.calendar_today,
+                                      color: theme.colorScheme.primary,
+                                      size: 18,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      route.date != null
+                                          ? '${route.date!.day}/${route.date!.month}/${route.date!.year}'
+                                          : 'No date',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: isDark
+                                            ? Colors.white
+                                            : Colors.black87,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(width: 10),
-                              Text(
-                                route.time != null
-                                    ? _formatTime(route.time ?? "")
-                                    : 'No Time',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: isDark ? Colors.white : Colors.black87,
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Color.fromRGBO(
+                                    theme.colorScheme.primary.red,
+                                    theme.colorScheme.primary.green,
+                                    theme.colorScheme.primary.blue,
+                                    0.1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Color.fromRGBO(
+                                      theme.colorScheme.primary.red,
+                                      theme.colorScheme.primary.green,
+                                      theme.colorScheme.primary.blue,
+                                      0.3,
+                                    ),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.departure_board,
+                                      color: theme.colorScheme.primary,
+                                      size: 18,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      route.time != null
+                                          ? _formatTime(route.time ?? "")
+                                          : 'No Time',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: isDark
+                                            ? Colors.white
+                                            : Colors.black87,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
 
-                    // Book Button
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            theme.colorScheme.primary,
-                            theme.colorScheme.secondary,
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(14),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromRGBO(
-                              theme.colorScheme.primary.red,
-                              theme.colorScheme.primary.green,
-                              theme.colorScheme.primary.blue,
-                              0.3,
+                          // Book Button
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  theme.colorScheme.primary,
+                                  theme.colorScheme.secondary,
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(14),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(
+                                    theme.colorScheme.primary.red,
+                                    theme.colorScheme.primary.green,
+                                    theme.colorScheme.primary.blue,
+                                    0.3,
+                                  ),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
                             ),
-                            blurRadius: 8,
-                            offset: Offset(0, 4),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _handleRouteNavigation(route);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                foregroundColor: Colors.white,
+                                shadowColor: Colors.transparent,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 28,
+                                  vertical: 14,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                elevation: 0,
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.bookmark, size: 20),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Book Now',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _handleRouteNavigation(route);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          foregroundColor: Colors.white,
-                          shadowColor: Colors.transparent,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 28,
-                            vertical: 14,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(Icons.bookmark, size: 20),
-                            const SizedBox(width: 8),
-                            Text(
-                              'Book Now',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),

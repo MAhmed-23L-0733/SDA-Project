@@ -455,106 +455,140 @@ class _ManageDiscountsPageState extends State<ManageDiscountsPage> {
                                   ),
                                 ],
                               ),
-                              child: ListTile(
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 8,
-                                ),
-                                leading: Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    color: isExpired
-                                        ? const Color.fromRGBO(255, 0, 0, 0.1)
-                                        : const Color.fromRGBO(0, 255, 0, 0.1),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Icon(
-                                    isExpired ? Icons.cancel : Icons.discount,
-                                    color: isExpired
-                                        ? Colors.red
-                                        : Colors.green,
-                                    size: 28,
-                                  ),
-                                ),
-                                title: Row(
-                                  children: [
-                                    Text(
-                                      discount.code ?? '',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                        color: theme.textTheme.bodyLarge?.color,
-                                      ),
+                              child: LayoutBuilder(
+                                builder: (context, constraints) {
+                                  final isSmallScreen =
+                                      constraints.maxWidth < 600;
+
+                                  return ListTile(
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: isSmallScreen ? 12 : 20,
+                                      vertical: 8,
                                     ),
-                                    SizedBox(width: 12),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 4,
-                                      ),
+                                    leading: Container(
+                                      width: isSmallScreen ? 40 : 50,
+                                      height: isSmallScreen ? 40 : 50,
                                       decoration: BoxDecoration(
-                                        color: theme.colorScheme.primary
-                                            .withValues(alpha: 0.1),
-                                        borderRadius: BorderRadius.circular(12),
+                                        color: isExpired
+                                            ? const Color.fromRGBO(
+                                                255,
+                                                0,
+                                                0,
+                                                0.1,
+                                              )
+                                            : const Color.fromRGBO(
+                                                0,
+                                                255,
+                                                0,
+                                                0.1,
+                                              ),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                      child: Text(
-                                        '${discount.value}% OFF',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                          color: theme.colorScheme.primary,
-                                        ),
+                                      child: Icon(
+                                        isExpired
+                                            ? Icons.cancel
+                                            : Icons.discount,
+                                        color: isExpired
+                                            ? Colors.red
+                                            : Colors.green,
+                                        size: isSmallScreen ? 20 : 28,
                                       ),
                                     ),
-                                    if (isExpired) ...[
-                                      SizedBox(width: 8),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                          vertical: 4,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: const Color.fromRGBO(
-                                            255,
-                                            0,
-                                            0,
-                                            0.1,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            12,
-                                          ),
-                                        ),
-                                        child: Text(
-                                          'EXPIRED',
+                                    title: Wrap(
+                                      spacing: 8,
+                                      runSpacing: 8,
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      children: [
+                                        Text(
+                                          discount.code ?? '',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                            color: Colors.red,
+                                            fontSize: isSmallScreen ? 14 : 18,
+                                            color: theme
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.color,
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ],
-                                ),
-                                subtitle: Padding(
-                                  padding: EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    'Expires: ${discount.expiryDate != null ? DateFormat('MMM dd, yyyy').format(discount.expiryDate!) : 'N/A'}',
-                                    style: TextStyle(
-                                      color: isExpired
-                                          ? Colors.red
-                                          : theme.textTheme.bodyMedium?.color
-                                                ?.withValues(alpha: 0.7),
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: isSmallScreen ? 8 : 10,
+                                            vertical: 4,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: theme.colorScheme.primary
+                                                .withValues(alpha: 0.1),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            '${discount.value}% OFF',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: isSmallScreen ? 12 : 14,
+                                              color: theme.colorScheme.primary,
+                                            ),
+                                          ),
+                                        ),
+                                        if (isExpired)
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: isSmallScreen
+                                                  ? 8
+                                                  : 10,
+                                              vertical: 4,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: const Color.fromRGBO(
+                                                255,
+                                                0,
+                                                0,
+                                                0.1,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                            child: Text(
+                                              'EXPIRED',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: isSmallScreen
+                                                    ? 10
+                                                    : 12,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                          ),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                                trailing: IconButton(
-                                  onPressed: () => _deleteDiscount(discount),
-                                  icon: Icon(Icons.delete_outline),
-                                  color: Colors.red,
-                                  tooltip: 'Delete',
-                                ),
+                                    subtitle: Padding(
+                                      padding: EdgeInsets.only(top: 8),
+                                      child: Text(
+                                        'Expires: ${discount.expiryDate != null ? DateFormat('MMM dd, yyyy').format(discount.expiryDate!) : 'N/A'}',
+                                        style: TextStyle(
+                                          fontSize: isSmallScreen ? 12 : 14,
+                                          color: isExpired
+                                              ? Colors.red
+                                              : theme
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.color
+                                                    ?.withValues(alpha: 0.7),
+                                        ),
+                                      ),
+                                    ),
+                                    trailing: IconButton(
+                                      onPressed: () =>
+                                          _deleteDiscount(discount),
+                                      icon: Icon(Icons.delete_outline),
+                                      iconSize: isSmallScreen ? 20 : 24,
+                                      color: Colors.red,
+                                      tooltip: 'Delete',
+                                    ),
+                                  );
+                                },
                               ),
                             );
                           },

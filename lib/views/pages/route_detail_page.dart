@@ -64,6 +64,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     return Scaffold(
       body: Container(
@@ -150,27 +151,27 @@ class _RouteDetailPageState extends State<RouteDetailPage>
               // Content
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: EdgeInsets.all(isSmallScreen ? 16.0 : 24.0),
                   child: FadeTransition(
                     opacity: _animationController,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         // Route Card
-                        _buildRouteCard(isDark),
-                        const SizedBox(height: 24),
+                        _buildRouteCard(isDark, isSmallScreen),
+                        SizedBox(height: isSmallScreen ? 16 : 24),
 
                         // Journey Info
-                        _buildJourneyInfo(isDark),
-                        const SizedBox(height: 24),
+                        _buildJourneyInfo(isDark, isSmallScreen),
+                        SizedBox(height: isSmallScreen ? 16 : 24),
 
                         // Seats Selection
-                        _buildSeatsSelection(isDark),
-                        const SizedBox(height: 24),
+                        _buildSeatsSelection(isDark, isSmallScreen),
+                        SizedBox(height: isSmallScreen ? 16 : 24),
 
                         // Pricing
-                        _buildPricing(isDark),
-                        const SizedBox(height: 32),
+                        _buildPricing(isDark, isSmallScreen),
+                        SizedBox(height: isSmallScreen ? 20 : 32),
 
                         // Book Now Button
                         _buildBookButton(),
@@ -186,13 +187,13 @@ class _RouteDetailPageState extends State<RouteDetailPage>
     );
   }
 
-  Widget _buildRouteCard(bool isDark) {
+  Widget _buildRouteCard(bool isDark, bool isSmallScreen) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(isSmallScreen ? 20 : 24),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
         child: Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(isSmallScreen ? 16 : 24),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
@@ -202,7 +203,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                 Colors.white.withOpacity(0.1),
               ],
             ),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(isSmallScreen ? 20 : 24),
             border: Border.all(
               color: Colors.white.withOpacity(0.2),
               width: 1.5,
@@ -219,16 +220,21 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                       children: [
                         Text(
                           'From',
-                          style: TextStyle(fontSize: 14, color: Colors.white70),
+                          style: TextStyle(
+                            fontSize: isSmallScreen ? 12 : 14,
+                            color: Colors.white70,
+                          ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: isSmallScreen ? 4 : 8),
                         Text(
                           widget.route.origin ?? 'Unknown',
                           style: TextStyle(
-                            fontSize: 28,
+                            fontSize: isSmallScreen ? 20 : 28,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
@@ -236,12 +242,18 @@ class _RouteDetailPageState extends State<RouteDetailPage>
 
                   // Arrow Icon
                   Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(
+                        isSmallScreen ? 12 : 16,
+                      ),
                     ),
-                    child: Icon(Icons.train, color: Colors.white, size: 32),
+                    child: Icon(
+                      Icons.train,
+                      color: Colors.white,
+                      size: isSmallScreen ? 24 : 32,
+                    ),
                   ),
 
                   // Destination
@@ -251,54 +263,68 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                       children: [
                         Text(
                           'To',
-                          style: TextStyle(fontSize: 14, color: Colors.white70),
+                          style: TextStyle(
+                            fontSize: isSmallScreen ? 12 : 14,
+                            color: Colors.white70,
+                          ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: isSmallScreen ? 4 : 8),
                         Text(
                           widget.route.destination ?? 'Unknown',
                           style: TextStyle(
-                            fontSize: 28,
+                            fontSize: isSmallScreen ? 20 : 28,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.end,
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: isSmallScreen ? 16 : 20),
               Divider(color: Colors.white.withOpacity(0.3)),
-              const SizedBox(height: 20),
+              SizedBox(height: isSmallScreen ? 16 : 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.calendar_today, color: Colors.white70, size: 20),
-                  const SizedBox(width: 12),
+                  Icon(
+                    Icons.calendar_today,
+                    color: Colors.white70,
+                    size: isSmallScreen ? 18 : 20,
+                  ),
+                  SizedBox(width: isSmallScreen ? 8 : 12),
                   Text(
                     widget.route.date != null
                         ? '${widget.route.date!.day}/${widget.route.date!.month}/${widget.route.date!.year}'
                         : 'No date',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: isSmallScreen ? 16 : 18,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: isSmallScreen ? 8 : 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.access_time, color: Colors.white70, size: 20),
-                  const SizedBox(width: 12),
+                  Icon(
+                    Icons.access_time,
+                    color: Colors.white70,
+                    size: isSmallScreen ? 18 : 20,
+                  ),
+                  SizedBox(width: isSmallScreen ? 8 : 12),
                   Text(
                     widget.route.time != null
                         ? _formatTime(widget.route.time!)
                         : 'No time',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: isSmallScreen ? 16 : 18,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),
@@ -323,13 +349,13 @@ class _RouteDetailPageState extends State<RouteDetailPage>
     return count;
   }
 
-  Widget _buildJourneyInfo(bool isDark) {
+  Widget _buildJourneyInfo(bool isDark, bool isSmallScreen) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -337,7 +363,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                 Colors.white.withOpacity(0.08),
               ],
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
             border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
           ),
           child: Column(
@@ -346,16 +372,17 @@ class _RouteDetailPageState extends State<RouteDetailPage>
               Text(
                 'Journey Information',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: isSmallScreen ? 18 : 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: isSmallScreen ? 12 : 16),
               _buildInfoRow(
                 Icons.event_seat,
                 'Available Seats',
                 _caulculateAvailableTickets().toString(),
+                isSmallScreen,
               ),
             ],
           ),
@@ -364,22 +391,34 @@ class _RouteDetailPageState extends State<RouteDetailPage>
     );
   }
 
-  Widget _buildInfoRow(IconData icon, String label, String value) {
+  Widget _buildInfoRow(
+    IconData icon,
+    String label,
+    String value,
+    bool isSmallScreen,
+  ) {
     return Row(
       children: [
         Container(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(isSmallScreen ? 8 : 10),
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(isSmallScreen ? 10 : 12),
           ),
-          child: Icon(icon, color: Colors.white70, size: 20),
+          child: Icon(
+            icon,
+            color: Colors.white70,
+            size: isSmallScreen ? 18 : 20,
+          ),
         ),
-        const SizedBox(width: 16),
+        SizedBox(width: isSmallScreen ? 12 : 16),
         Expanded(
           child: Text(
             label,
-            style: TextStyle(fontSize: 15, color: Colors.white70),
+            style: TextStyle(
+              fontSize: isSmallScreen ? 14 : 15,
+              color: Colors.white70,
+            ),
           ),
         ),
         _loadingTickets
@@ -391,7 +430,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
             : Text(
                 value,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: isSmallScreen ? 15 : 16,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -400,13 +439,13 @@ class _RouteDetailPageState extends State<RouteDetailPage>
     );
   }
 
-  Widget _buildSeatsSelection(bool isDark) {
+  Widget _buildSeatsSelection(bool isDark, bool isSmallScreen) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -414,7 +453,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                 Colors.white.withOpacity(0.08),
               ],
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
             border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
           ),
           child: Column(
@@ -423,12 +462,12 @@ class _RouteDetailPageState extends State<RouteDetailPage>
               Text(
                 'Select Your Seats',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: isSmallScreen ? 18 : 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: isSmallScreen ? 16 : 20),
               // Seat grid / map - Train Layout by Class
               _loadingTickets
                   ? Center(
@@ -449,17 +488,27 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                         ),
                       ),
                     )
-                  : _buildAllTrainsLayout(),
+                  : _buildAllTrainsLayout(isSmallScreen),
               const SizedBox(height: 12),
               // Legend
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              Wrap(
+                spacing: isSmallScreen ? 8 : 16,
+                runSpacing: 8,
                 children: [
-                  _legendItem(Colors.white.withOpacity(0.12), 'Available'),
-                  _legendItem(const Color(0xFF7C4DFF), 'Selected'),
+                  _legendItem(
+                    Colors.white.withOpacity(0.12),
+                    'Available',
+                    isSmallScreen,
+                  ),
+                  _legendItem(
+                    const Color(0xFF7C4DFF),
+                    'Selected',
+                    isSmallScreen,
+                  ),
                   _legendItem(
                     Colors.red.withOpacity(0.7),
                     'Sold',
+                    isSmallScreen,
                     icon: Icons.lock,
                   ),
                 ],
@@ -471,28 +520,40 @@ class _RouteDetailPageState extends State<RouteDetailPage>
     );
   }
 
-  Widget _legendItem(Color color, String label, {IconData? icon}) {
+  Widget _legendItem(
+    Color color,
+    String label,
+    bool isSmallScreen, {
+    IconData? icon,
+  }) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 18,
-          height: 18,
+          width: isSmallScreen ? 16 : 18,
+          height: isSmallScreen ? 16 : 18,
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(4),
             border: Border.all(color: Colors.white.withOpacity(0.2)),
           ),
           child: icon != null
-              ? Icon(icon, size: 14, color: Colors.white70)
+              ? Icon(icon, size: isSmallScreen ? 12 : 14, color: Colors.white70)
               : null,
         ),
-        const SizedBox(width: 8),
-        Text(label, style: TextStyle(color: Colors.white70)),
+        SizedBox(width: isSmallScreen ? 6 : 8),
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.white70,
+            fontSize: isSmallScreen ? 12 : 14,
+          ),
+        ),
       ],
     );
   }
 
-  Widget _buildAllTrainsLayout() {
+  Widget _buildAllTrainsLayout(bool isSmallScreen) {
     // Separate tickets by class
     final firstClassTickets =
         _tickets.where((t) => t.Class?.toLowerCase() == 'first class').toList()
@@ -515,8 +576,9 @@ class _RouteDetailPageState extends State<RouteDetailPage>
             primaryColor: Colors.amber,
             secondaryColor: Colors.orange,
             icon: Icons.diamond,
+            isSmallScreen: isSmallScreen,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: isSmallScreen ? 16 : 20),
         ],
         if (businessClassTickets.isNotEmpty) ...[
           _buildTrainLayout(
@@ -525,8 +587,9 @@ class _RouteDetailPageState extends State<RouteDetailPage>
             primaryColor: Colors.blue,
             secondaryColor: Colors.indigo,
             icon: Icons.business_center,
+            isSmallScreen: isSmallScreen,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: isSmallScreen ? 16 : 20),
         ],
         if (economyClassTickets.isNotEmpty) ...[
           _buildTrainLayout(
@@ -535,6 +598,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
             primaryColor: Colors.green,
             secondaryColor: Colors.teal,
             icon: Icons.airline_seat_recline_normal,
+            isSmallScreen: isSmallScreen,
           ),
         ],
       ],
@@ -547,19 +611,20 @@ class _RouteDetailPageState extends State<RouteDetailPage>
     required Color primaryColor,
     required Color secondaryColor,
     required IconData icon,
+    required bool isSmallScreen,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(isSmallScreen ? 12 : 16),
         border: Border.all(color: primaryColor.withOpacity(0.4), width: 2),
       ),
       child: Column(
         children: [
           // Train Front with Class Label
           Container(
-            height: 40,
+            height: isSmallScreen ? 35 : 40,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -568,8 +633,8 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                 ],
               ),
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
+                topLeft: Radius.circular(isSmallScreen ? 16 : 20),
+                topRight: Radius.circular(isSmallScreen ? 16 : 20),
               ),
               border: Border.all(color: primaryColor.withOpacity(0.4)),
             ),
@@ -577,22 +642,26 @@ class _RouteDetailPageState extends State<RouteDetailPage>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(icon, color: Colors.white, size: 20),
-                  SizedBox(width: 8),
+                  Icon(
+                    icon,
+                    color: Colors.white,
+                    size: isSmallScreen ? 16 : 20,
+                  ),
+                  SizedBox(width: isSmallScreen ? 6 : 8),
                   Text(
                     className,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 2,
-                      fontSize: 14,
+                      letterSpacing: isSmallScreen ? 1 : 2,
+                      fontSize: isSmallScreen ? 12 : 14,
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          SizedBox(height: 12),
+          SizedBox(height: isSmallScreen ? 8 : 12),
 
           // Seats in rows with aisle
           ...List.generate((tickets.length / 4).ceil(), (rowIndex) {
@@ -600,7 +669,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
             final rowSeats = tickets.skip(startIndex).take(4).toList();
 
             return Padding(
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: EdgeInsets.only(bottom: isSmallScreen ? 6 : 8),
               child: Row(
                 children: [
                   // Left side seats (2 seats)
@@ -609,20 +678,26 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                       .map(
                         (ticket) => Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: _buildTrainSeat(ticket, primaryColor),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: isSmallScreen ? 2 : 3,
+                            ),
+                            child: _buildTrainSeat(
+                              ticket,
+                              primaryColor,
+                              isSmallScreen,
+                            ),
                           ),
                         ),
                       ),
 
                   // Aisle
                   Container(
-                    width: 30,
-                    height: 60,
+                    width: isSmallScreen ? 24 : 28,
+                    height: isSmallScreen ? 50 : 60,
                     child: Center(
                       child: Container(
                         width: 2,
-                        height: 40,
+                        height: isSmallScreen ? 30 : 40,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
@@ -645,8 +720,14 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                       .map(
                         (ticket) => Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: _buildTrainSeat(ticket, primaryColor),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: isSmallScreen ? 2 : 3,
+                            ),
+                            child: _buildTrainSeat(
+                              ticket,
+                              primaryColor,
+                              isSmallScreen,
+                            ),
                           ),
                         ),
                       ),
@@ -655,10 +736,10 @@ class _RouteDetailPageState extends State<RouteDetailPage>
             );
           }),
 
-          SizedBox(height: 12),
+          SizedBox(height: isSmallScreen ? 8 : 12),
           // Train Back
           Container(
-            height: 30,
+            height: isSmallScreen ? 25 : 30,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -667,8 +748,8 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                 ],
               ),
               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(16),
-                bottomRight: Radius.circular(16),
+                bottomLeft: Radius.circular(isSmallScreen ? 12 : 16),
+                bottomRight: Radius.circular(isSmallScreen ? 12 : 16),
               ),
               border: Border.all(color: primaryColor.withOpacity(0.4)),
             ),
@@ -678,8 +759,8 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  letterSpacing: 2,
+                  fontSize: isSmallScreen ? 10 : 12,
+                  letterSpacing: isSmallScreen ? 1.5 : 2,
                 ),
               ),
             ),
@@ -689,7 +770,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
     );
   }
 
-  Widget _buildTrainSeat(Ticket ticket, Color classColor) {
+  Widget _buildTrainSeat(Ticket ticket, Color classColor, bool isSmallScreen) {
     final seatNum = ticket.seatNumber ?? 0;
     final isSold = (ticket.status ?? 0) == 2;
     final isSelected = _selectedSeatNumbers.contains(seatNum);
@@ -700,29 +781,32 @@ class _RouteDetailPageState extends State<RouteDetailPage>
           : isSelected
           ? const Color(0xFF7C4DFF)
           : classColor.withOpacity(0.15),
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(isSmallScreen ? 6 : 8),
       elevation: isSelected ? 4 : 0,
       child: InkWell(
         onTap: isSold ? null : () => _onSeatTap(seatNum),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(isSmallScreen ? 6 : 8),
         child: Container(
-          height: 60,
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+          height: isSmallScreen ? 50 : 60,
+          padding: EdgeInsets.symmetric(
+            vertical: isSmallScreen ? 4 : 6,
+            horizontal: isSmallScreen ? 2 : 4,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 isSold ? Icons.lock : Icons.chair,
                 color: isSelected || isSold ? Colors.white : Colors.white70,
-                size: 18,
+                size: isSmallScreen ? 14 : 18,
               ),
-              SizedBox(height: 2),
+              SizedBox(height: isSmallScreen ? 1 : 2),
               Text(
                 '$seatNum',
                 style: TextStyle(
                   color: isSelected || isSold ? Colors.white : Colors.white70,
                   fontWeight: FontWeight.bold,
-                  fontSize: 11,
+                  fontSize: isSmallScreen ? 9 : 11,
                 ),
               ),
               if (ticket.price != null)
@@ -730,7 +814,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                   '${ticket.price!.toInt()}',
                   style: TextStyle(
                     color: isSelected || isSold ? Colors.white : Colors.white60,
-                    fontSize: 9,
+                    fontSize: isSmallScreen ? 7 : 9,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -741,7 +825,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
     );
   }
 
-  Widget _buildPricing(bool isDark) {
+  Widget _buildPricing(bool isDark, bool isSmallScreen) {
     // Calculate price from selected seats
     double totalPrice = 0;
     for (final seatNum in _selectedSeatNumbers) {
@@ -764,11 +848,11 @@ class _RouteDetailPageState extends State<RouteDetailPage>
     }
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -776,7 +860,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                 Colors.white.withOpacity(0.08),
               ],
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
             border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
           ),
           child: Column(
@@ -786,108 +870,202 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                 children: [
                   Text(
                     'Avg Price per Seat',
-                    style: TextStyle(fontSize: 16, color: Colors.white70),
+                    style: TextStyle(
+                      fontSize: isSmallScreen ? 14 : 16,
+                      color: Colors.white70,
+                    ),
                   ),
                   Text(
                     'PKR $avgPrice',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: isSmallScreen ? 14 : 16,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: isSmallScreen ? 10 : 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Number of Seats',
-                    style: TextStyle(fontSize: 16, color: Colors.white70),
+                    style: TextStyle(
+                      fontSize: isSmallScreen ? 14 : 16,
+                      color: Colors.white70,
+                    ),
                   ),
                   Text(
                     '$_selectedSeats',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: isSmallScreen ? 14 : 16,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: isSmallScreen ? 12 : 16),
               Divider(color: Colors.white.withOpacity(0.3)),
-              const SizedBox(height: 16),
+              SizedBox(height: isSmallScreen ? 12 : 16),
 
               // Discount Code Section
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _discountController,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: 'Discount Code',
-                        labelStyle: TextStyle(color: Colors.white70),
-                        hintText: 'Enter code',
-                        hintStyle: TextStyle(color: Colors.white38),
-                        prefixIcon: Icon(Icons.discount, color: Colors.white70),
-                        errorText: _discountError,
-                        errorStyle: TextStyle(color: Colors.red[300]),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: Colors.white.withOpacity(0.3),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Colors.white, width: 2),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Colors.red[300]!),
-                        ),
-                      ),
-                      textCapitalization: TextCapitalization.characters,
-                      enabled: !_applyingDiscount,
-                    ),
-                  ),
-                  SizedBox(width: 12),
-                  ElevatedButton(
-                    onPressed: _applyingDiscount ? null : _validateDiscount,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white.withOpacity(0.9),
-                      foregroundColor: const Color(0xFF4a148c),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 16,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: _applyingDiscount
-                        ? SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                const Color(0xFF4a148c),
+              isSmallScreen
+                  ? Column(
+                      children: [
+                        TextField(
+                          controller: _discountController,
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                          decoration: InputDecoration(
+                            labelText: 'Discount Code',
+                            labelStyle: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                            ),
+                            hintText: 'Enter code',
+                            hintStyle: TextStyle(color: Colors.white38),
+                            prefixIcon: Icon(
+                              Icons.discount,
+                              color: Colors.white70,
+                              size: 20,
+                            ),
+                            errorText: _discountError,
+                            errorStyle: TextStyle(
+                              color: Colors.red[300],
+                              fontSize: 12,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                color: Colors.white.withOpacity(0.3),
                               ),
                             ),
-                          )
-                        : Text('Apply'),
-                  ),
-                ],
-              ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                                width: 2,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.red[300]!),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 12,
+                            ),
+                          ),
+                          textCapitalization: TextCapitalization.characters,
+                          enabled: !_applyingDiscount,
+                        ),
+                        SizedBox(height: 12),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: _applyingDiscount
+                                ? null
+                                : _validateDiscount,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white.withOpacity(0.9),
+                              foregroundColor: const Color(0xFF4a148c),
+                              padding: EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: _applyingDiscount
+                                ? SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        const Color(0xFF4a148c),
+                                      ),
+                                    ),
+                                  )
+                                : Text('Apply'),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _discountController,
+                            style: TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              labelText: 'Discount Code',
+                              labelStyle: TextStyle(color: Colors.white70),
+                              hintText: 'Enter code',
+                              hintStyle: TextStyle(color: Colors.white38),
+                              prefixIcon: Icon(
+                                Icons.discount,
+                                color: Colors.white70,
+                              ),
+                              errorText: _discountError,
+                              errorStyle: TextStyle(color: Colors.red[300]),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide(
+                                  color: Colors.white,
+                                  width: 2,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide(color: Colors.red[300]!),
+                              ),
+                            ),
+                            textCapitalization: TextCapitalization.characters,
+                            enabled: !_applyingDiscount,
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        ElevatedButton(
+                          onPressed: _applyingDiscount
+                              ? null
+                              : _validateDiscount,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white.withOpacity(0.9),
+                            foregroundColor: const Color(0xFF4a148c),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 16,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: _applyingDiscount
+                              ? SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      const Color(0xFF4a148c),
+                                    ),
+                                  ),
+                                )
+                              : Text('Apply'),
+                        ),
+                      ],
+                    ),
 
               if (_discountValue != null) ...[
-                SizedBox(height: 12),
+                SizedBox(height: isSmallScreen ? 10 : 12),
                 Container(
-                  padding: EdgeInsets.all(12),
+                  padding: EdgeInsets.all(isSmallScreen ? 10 : 12),
                   decoration: BoxDecoration(
                     color: Colors.green.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(8),
@@ -898,22 +1076,24 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                       Icon(
                         Icons.check_circle,
                         color: Colors.green[300],
-                        size: 20,
+                        size: isSmallScreen ? 18 : 20,
                       ),
-                      SizedBox(width: 8),
-                      Text(
-                        'Discount applied: $_discountValue% OFF',
-                        style: TextStyle(
-                          color: Colors.green[300],
-                          fontWeight: FontWeight.w600,
+                      SizedBox(width: isSmallScreen ? 6 : 8),
+                      Expanded(
+                        child: Text(
+                          'Discount applied: $_discountValue% OFF',
+                          style: TextStyle(
+                            color: Colors.green[300],
+                            fontWeight: FontWeight.w600,
+                            fontSize: isSmallScreen ? 13 : 14,
+                          ),
                         ),
                       ),
-                      Spacer(),
                       IconButton(
                         icon: Icon(
                           Icons.close,
                           color: Colors.green[300],
-                          size: 18,
+                          size: isSmallScreen ? 16 : 18,
                         ),
                         onPressed: _clearDiscount,
                         padding: EdgeInsets.zero,
@@ -924,7 +1104,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                 ),
               ],
 
-              const SizedBox(height: 16),
+              SizedBox(height: isSmallScreen ? 12 : 16),
 
               // Price breakdown
               Row(
@@ -932,12 +1112,15 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                 children: [
                   Text(
                     'Subtotal',
-                    style: TextStyle(fontSize: 16, color: Colors.white70),
+                    style: TextStyle(
+                      fontSize: isSmallScreen ? 14 : 16,
+                      color: Colors.white70,
+                    ),
                   ),
                   Text(
                     'PKR ${totalPrice.toInt()}',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: isSmallScreen ? 14 : 16,
                       fontWeight: FontWeight.w600,
                       color: Colors.white70,
                       decoration: _discountValue != null
@@ -949,18 +1132,21 @@ class _RouteDetailPageState extends State<RouteDetailPage>
               ),
 
               if (_discountValue != null) ...[
-                SizedBox(height: 8),
+                SizedBox(height: isSmallScreen ? 6 : 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'Discount',
-                      style: TextStyle(fontSize: 16, color: Colors.green[300]),
+                      style: TextStyle(
+                        fontSize: isSmallScreen ? 14 : 16,
+                        color: Colors.green[300],
+                      ),
                     ),
                     Text(
                       '- PKR ${discountAmount.toInt()}',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: isSmallScreen ? 14 : 16,
                         fontWeight: FontWeight.w600,
                         color: Colors.green[300],
                       ),
@@ -969,9 +1155,9 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                 ),
               ],
 
-              const SizedBox(height: 12),
+              SizedBox(height: isSmallScreen ? 10 : 12),
               Divider(color: Colors.white.withOpacity(0.3)),
-              const SizedBox(height: 12),
+              SizedBox(height: isSmallScreen ? 10 : 12),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -979,7 +1165,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                   Text(
                     'Total Price',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: isSmallScreen ? 18 : 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -987,7 +1173,7 @@ class _RouteDetailPageState extends State<RouteDetailPage>
                   Text(
                     'PKR ${finalPrice.toInt()}',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: isSmallScreen ? 20 : 24,
                       fontWeight: FontWeight.bold,
                       color: _discountValue != null
                           ? Colors.green[300]

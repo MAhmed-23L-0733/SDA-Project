@@ -610,9 +610,10 @@ class _DashboardPageState extends State<DashboardPage> {
     final confirmed = (_metrics!['confirmed_bookings'] as int).toDouble();
     final cancelled = (_metrics!['cancelled_bookings'] as int).toDouble();
     final total = confirmed + cancelled;
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
       decoration: BoxDecoration(
         color: isDark ? Colors.grey[850] : Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -630,74 +631,131 @@ class _DashboardPageState extends State<DashboardPage> {
           Text(
             'Bookings Overview',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: isSmallScreen ? 16 : 18,
               fontWeight: FontWeight.bold,
               color: theme.textTheme.bodyLarge?.color,
             ),
           ),
-          SizedBox(height: 24),
+          SizedBox(height: isSmallScreen ? 16 : 24),
           SizedBox(
-            height: 200,
+            height: isSmallScreen ? 280 : 200,
             child: total > 0
-                ? Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: PieChart(
-                          PieChartData(
-                            sectionsSpace: 2,
-                            centerSpaceRadius: 50,
-                            sections: [
-                              PieChartSectionData(
-                                color: Colors.green,
-                                value: confirmed,
-                                title:
-                                    '${((confirmed / total) * 100).toStringAsFixed(0)}%',
-                                radius: 60,
-                                titleStyle: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              PieChartSectionData(
-                                color: Colors.red,
-                                value: cancelled,
-                                title:
-                                    '${((cancelled / total) * 100).toStringAsFixed(0)}%',
-                                radius: 60,
-                                titleStyle: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                ? isSmallScreen
+                      ? Column(
                           children: [
-                            _buildPieLegendItem(
-                              'Confirmed',
-                              Colors.green,
-                              confirmed.toInt(),
+                            // Pie Chart
+                            Expanded(
+                              child: PieChart(
+                                PieChartData(
+                                  sectionsSpace: 2,
+                                  centerSpaceRadius: 40,
+                                  sections: [
+                                    PieChartSectionData(
+                                      color: Colors.green,
+                                      value: confirmed,
+                                      title:
+                                          '${((confirmed / total) * 100).toStringAsFixed(0)}%',
+                                      radius: 50,
+                                      titleStyle: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    PieChartSectionData(
+                                      color: Colors.red,
+                                      value: cancelled,
+                                      title:
+                                          '${((cancelled / total) * 100).toStringAsFixed(0)}%',
+                                      radius: 50,
+                                      titleStyle: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                             SizedBox(height: 16),
-                            _buildPieLegendItem(
-                              'Cancelled',
-                              Colors.red,
-                              cancelled.toInt(),
+                            // Legend
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                _buildPieLegendItem(
+                                  'Confirmed',
+                                  Colors.green,
+                                  confirmed.toInt(),
+                                ),
+                                _buildPieLegendItem(
+                                  'Cancelled',
+                                  Colors.red,
+                                  cancelled.toInt(),
+                                ),
+                              ],
                             ),
                           ],
-                        ),
-                      ),
-                    ],
-                  )
+                        )
+                      : Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: PieChart(
+                                PieChartData(
+                                  sectionsSpace: 2,
+                                  centerSpaceRadius: 50,
+                                  sections: [
+                                    PieChartSectionData(
+                                      color: Colors.green,
+                                      value: confirmed,
+                                      title:
+                                          '${((confirmed / total) * 100).toStringAsFixed(0)}%',
+                                      radius: 60,
+                                      titleStyle: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    PieChartSectionData(
+                                      color: Colors.red,
+                                      value: cancelled,
+                                      title:
+                                          '${((cancelled / total) * 100).toStringAsFixed(0)}%',
+                                      radius: 60,
+                                      titleStyle: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildPieLegendItem(
+                                    'Confirmed',
+                                    Colors.green,
+                                    confirmed.toInt(),
+                                  ),
+                                  SizedBox(height: 16),
+                                  _buildPieLegendItem(
+                                    'Cancelled',
+                                    Colors.red,
+                                    cancelled.toInt(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
                 : Center(
                     child: Text(
                       'No bookings yet',

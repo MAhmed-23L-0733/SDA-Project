@@ -17,7 +17,8 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
   String? _error;
   String _searchQuery = '';
   String _sortOption =
-      'date_newest'; // date_newest, date_oldest, name_az, name_za
+      'date_newest'; // date_newest, date_oldest, name_az, name_za, expired
+  String _filterOption = 'all'; // all, expired
 
   // Form controllers
   final _formKey = GlobalKey<FormState>();
@@ -83,6 +84,33 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
   void _applyFilters() {
     List<Routes> filtered = List.from(_routes);
 
+    // Apply expired filter
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
+    if (_filterOption == 'expired') {
+      filtered = filtered.where((route) {
+        if (route.date == null) return false;
+        final routeDate = DateTime(
+          route.date!.year,
+          route.date!.month,
+          route.date!.day,
+        );
+        return routeDate.isBefore(today);
+      }).toList();
+    } else if (_filterOption == 'active') {
+      filtered = filtered.where((route) {
+        if (route.date == null) return true;
+        final routeDate = DateTime(
+          route.date!.year,
+          route.date!.month,
+          route.date!.day,
+        );
+        return !routeDate.isBefore(today);
+      }).toList();
+    }
+    // 'all' shows everything, no additional filtering needed
+
     // Apply search filter
     if (_searchQuery.isNotEmpty) {
       filtered = filtered.where((route) {
@@ -143,6 +171,15 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
     if (newSort != null) {
       setState(() {
         _sortOption = newSort;
+      });
+      _applyFilters();
+    }
+  }
+
+  void _onFilterChanged(String? newFilter) {
+    if (newFilter != null) {
+      setState(() {
+        _filterOption = newFilter;
       });
       _applyFilters();
     }
@@ -749,73 +786,208 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
               SizedBox(height: 30),
 
               // Search and Filter Section
-              Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: _onSearchChanged,
-                      decoration: InputDecoration(
-                        hintText: 'Search routes by origin or destination...',
-                        prefixIcon: Icon(Icons.search),
-                        suffixIcon: _searchQuery.isNotEmpty
-                            ? IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {
-                                  _searchController.clear();
-                                  _onSearchChanged('');
-                                },
-                              )
-                            : null,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final isSmallScreen = constraints.maxWidth < 600;
+
+                  if (isSmallScreen) {
+                    return Column(
+                      children: [
+                        TextField(
+                          controller: _searchController,
+                          onChanged: _onSearchChanged,
+                          decoration: InputDecoration(
+                            hintText: 'Search routes...',
+                            prefixIcon: Icon(Icons.search),
+                            suffixIcon: _searchQuery.isNotEmpty
+                                ? IconButton(
+                                    icon: Icon(Icons.clear),
+                                    onPressed: () {
+                                      _searchController.clear();
+                                      _onSearchChanged('');
+                                    },
+                                  )
+                                : null,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                          ),
                         ),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
+                        SizedBox(height: 12),
+                        DropdownButtonFormField<String>(
+                          value: _sortOption,
+                          onChanged: _onSortChanged,
+                          decoration: InputDecoration(
+                            labelText: 'Sort By',
+                            prefixIcon: Icon(Icons.sort),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                          ),
+                          items: [
+                            DropdownMenuItem(
+                              value: 'date_newest',
+                              child: Text('Date: Newest'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'date_oldest',
+                              child: Text('Date: Oldest'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'name_az',
+                              child: Text('Name: A-Z'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'name_za',
+                              child: Text('Name: Z-A'),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 12),
-                  Expanded(
-                    flex: 2,
-                    child: DropdownButtonFormField<String>(
-                      value: _sortOption,
-                      onChanged: _onSortChanged,
-                      decoration: InputDecoration(
-                        labelText: 'Sort By',
-                        prefixIcon: Icon(Icons.sort),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                      ),
-                      items: [
-                        DropdownMenuItem(
-                          value: 'date_newest',
-                          child: Text('Date: Newest'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'date_oldest',
-                          child: Text('Date: Oldest'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'name_az',
-                          child: Text('Name: A-Z'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'name_za',
-                          child: Text('Name: Z-A'),
+                        SizedBox(height: 12),
+                        DropdownButtonFormField<String>(
+                          value: _filterOption,
+                          onChanged: _onFilterChanged,
+                          decoration: InputDecoration(
+                            labelText: 'Filter',
+                            prefixIcon: Icon(Icons.filter_alt),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                          ),
+                          items: [
+                            DropdownMenuItem(
+                              value: 'all',
+                              child: Text('All Routes'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'active',
+                              child: Text('Active Routes'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'expired',
+                              child: Text('Expired Routes'),
+                            ),
+                          ],
                         ),
                       ],
-                    ),
-                  ),
-                ],
+                    );
+                  }
+
+                  return Row(
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: TextField(
+                          controller: _searchController,
+                          onChanged: _onSearchChanged,
+                          decoration: InputDecoration(
+                            hintText:
+                                'Search routes by origin or destination...',
+                            prefixIcon: Icon(Icons.search),
+                            suffixIcon: _searchQuery.isNotEmpty
+                                ? IconButton(
+                                    icon: Icon(Icons.clear),
+                                    onPressed: () {
+                                      _searchController.clear();
+                                      _onSearchChanged('');
+                                    },
+                                  )
+                                : null,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 12),
+                      Expanded(
+                        flex: 2,
+                        child: DropdownButtonFormField<String>(
+                          value: _sortOption,
+                          onChanged: _onSortChanged,
+                          decoration: InputDecoration(
+                            labelText: 'Sort By',
+                            prefixIcon: Icon(Icons.sort),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                          ),
+                          items: [
+                            DropdownMenuItem(
+                              value: 'date_newest',
+                              child: Text('Date: Newest'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'date_oldest',
+                              child: Text('Date: Oldest'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'name_az',
+                              child: Text('Name: A-Z'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'name_za',
+                              child: Text('Name: Z-A'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 12),
+                      Expanded(
+                        flex: 2,
+                        child: DropdownButtonFormField<String>(
+                          value: _filterOption,
+                          onChanged: _onFilterChanged,
+                          decoration: InputDecoration(
+                            labelText: 'Filter',
+                            prefixIcon: Icon(Icons.filter_alt),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                          ),
+                          items: [
+                            DropdownMenuItem(
+                              value: 'all',
+                              child: Text('All Routes'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'active',
+                              child: Text('Active Routes'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'expired',
+                              child: Text('Expired Routes'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
 
               SizedBox(height: 16),
