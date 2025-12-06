@@ -20,7 +20,6 @@ class RouteDetailPage extends StatefulWidget {
 class _RouteDetailPageState extends State<RouteDetailPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  int _selectedSeats = 1;
   List<Ticket> _tickets = [];
   final Set<int> _selectedSeatNumbers = {};
   bool _loadingTickets = true;
@@ -828,16 +827,15 @@ class _RouteDetailPageState extends State<RouteDetailPage>
   Widget _buildPricing(bool isDark, bool isSmallScreen) {
     // Calculate price from selected seats
     double totalPrice = 0;
+    List<Ticket> selectedTickets = [];
     for (final seatNum in _selectedSeatNumbers) {
       final ticket = _tickets.firstWhere(
         (t) => t.seatNumber == seatNum,
         orElse: () => Ticket(price: 0),
       );
+      selectedTickets.add(ticket);
       totalPrice += ticket.price ?? 0;
     }
-    final avgPrice = _selectedSeatNumbers.isEmpty
-        ? 0
-        : (totalPrice / _selectedSeatNumbers.length).toInt();
 
     // Calculate discounted price
     double finalPrice = totalPrice;
@@ -865,50 +863,104 @@ class _RouteDetailPageState extends State<RouteDetailPage>
           ),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Avg Price per Seat',
-                    style: TextStyle(
-                      fontSize: isSmallScreen ? 14 : 16,
-                      color: Colors.white70,
+              // Selected Seats Details
+              if (selectedTickets.isNotEmpty) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Selected Seats',
+                      style: TextStyle(
+                        fontSize: isSmallScreen ? 16 : 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'PKR $avgPrice',
-                    style: TextStyle(
-                      fontSize: isSmallScreen ? 14 : 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                    Text(
+                      '${selectedTickets.length} seat${selectedTickets.length > 1 ? 's' : ''}',
+                      style: TextStyle(
+                        fontSize: isSmallScreen ? 14 : 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white70,
+                      ),
                     ),
+                  ],
+                ),
+                SizedBox(height: isSmallScreen ? 12 : 16),
+                Container(
+                  constraints: BoxConstraints(
+                    maxHeight: isSmallScreen ? 150 : 200,
                   ),
-                ],
-              ),
-              SizedBox(height: isSmallScreen ? 10 : 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Number of Seats',
-                    style: TextStyle(
-                      fontSize: isSmallScreen ? 14 : 16,
-                      color: Colors.white70,
-                    ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: selectedTickets.length,
+                    itemBuilder: (context, index) {
+                      final ticket = selectedTickets[index];
+                      return Container(
+                        margin: EdgeInsets.only(bottom: isSmallScreen ? 6 : 8),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isSmallScreen ? 10 : 12,
+                          vertical: isSmallScreen ? 8 : 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.2),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.chair,
+                                  color: Colors.white70,
+                                  size: isSmallScreen ? 16 : 18,
+                                ),
+                                SizedBox(width: isSmallScreen ? 6 : 8),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Seat ${ticket.seatNumber}',
+                                      style: TextStyle(
+                                        fontSize: isSmallScreen ? 13 : 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    if (ticket.Class != null)
+                                      Text(
+                                        ticket.Class!,
+                                        style: TextStyle(
+                                          fontSize: isSmallScreen ? 11 : 12,
+                                          color: Colors.white60,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Text(
+                              'PKR ${ticket.price?.toInt() ?? 0}',
+                              style: TextStyle(
+                                fontSize: isSmallScreen ? 13 : 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                  Text(
-                    '$_selectedSeats',
-                    style: TextStyle(
-                      fontSize: isSmallScreen ? 14 : 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: isSmallScreen ? 12 : 16),
-              Divider(color: Colors.white.withOpacity(0.3)),
-              SizedBox(height: isSmallScreen ? 12 : 16),
+                ),
+                SizedBox(height: isSmallScreen ? 12 : 16),
+                Divider(color: Colors.white.withOpacity(0.3)),
+                SizedBox(height: isSmallScreen ? 12 : 16),
+              ],
 
               // Discount Code Section
               isSmallScreen
@@ -1245,9 +1297,6 @@ class _RouteDetailPageState extends State<RouteDetailPage>
       } else {
         _selectedSeatNumbers.add(seatNumber);
       }
-      _selectedSeats = _selectedSeatNumbers.isEmpty
-          ? 0
-          : _selectedSeatNumbers.length;
     });
   }
 

@@ -79,6 +79,25 @@ class _ManageDiscountsPageState extends State<ManageDiscountsPage> {
         return;
       }
 
+      // Check if expiry date is in the past
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final expiryDate = DateTime(
+        _selectedExpiryDate!.year,
+        _selectedExpiryDate!.month,
+        _selectedExpiryDate!.day,
+      );
+
+      if (expiryDate.isBefore(today)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Expiry date cannot be in the past'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
       try {
         final value = int.parse(_valueController.text);
 
