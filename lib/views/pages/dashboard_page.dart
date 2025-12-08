@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/models/admin_model.dart';
+import 'package:flutter_template/views/pages/revenue_details_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 
@@ -236,85 +237,113 @@ class _DashboardPageState extends State<DashboardPage> {
       decimalDigits: 0,
     ).format(revenue);
 
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            theme.colorScheme.primary,
-            Color.fromRGBO(
-              theme.colorScheme.primary.red,
-              theme.colorScheme.primary.green,
-              theme.colorScheme.primary.blue,
-              0.7,
-            ),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Color.fromRGBO(
-              theme.colorScheme.primary.red,
-              theme.colorScheme.primary.green,
-              theme.colorScheme.primary.blue,
-              0.3,
-            ),
-            blurRadius: 10,
-            offset: Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(255, 255, 255, 0.2),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(Icons.money, color: Colors.white, size: 28),
-              ),
-              Spacer(),
-              Icon(
-                Icons.trending_up,
-                color: const Color.fromRGBO(255, 255, 255, 0.8),
-                size: 32,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const RevenueDetailsPage()),
+        );
+      },
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              theme.colorScheme.primary,
+              Color.fromRGBO(
+                theme.colorScheme.primary.red,
+                theme.colorScheme.primary.green,
+                theme.colorScheme.primary.blue,
+                0.7,
               ),
             ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          SizedBox(height: 16),
-          Text(
-            'Total Revenue',
-            style: TextStyle(
-              color: const Color.fromRGBO(255, 255, 255, 0.9),
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromRGBO(
+                theme.colorScheme.primary.red,
+                theme.colorScheme.primary.green,
+                theme.colorScheme.primary.blue,
+                0.3,
+              ),
+              blurRadius: 10,
+              offset: Offset(0, 4),
             ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            formattedRevenue,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 36,
-              fontWeight: FontWeight.bold,
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(255, 255, 255, 0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(Icons.money, color: Colors.white, size: 28),
+                ),
+                Spacer(),
+                Icon(
+                  Icons.trending_up,
+                  color: const Color.fromRGBO(255, 255, 255, 0.8),
+                  size: 32,
+                ),
+              ],
             ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            'From confirmed bookings',
-            style: TextStyle(
-              color: const Color.fromRGBO(255, 255, 255, 0.8),
-              fontSize: 14,
+            SizedBox(height: 16),
+            Text(
+              'Total Revenue',
+              style: TextStyle(
+                color: const Color.fromRGBO(255, 255, 255, 0.9),
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-        ],
+            SizedBox(height: 8),
+            Text(
+              formattedRevenue,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'From confirmed bookings',
+              style: TextStyle(
+                color: const Color.fromRGBO(255, 255, 255, 0.8),
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(height: 12),
+            Row(
+              children: [
+                Text(
+                  'Tap to view details',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(255, 255, 255, 0.9),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(width: 6),
+                Icon(
+                  Icons.arrow_forward,
+                  color: const Color.fromRGBO(255, 255, 255, 0.9),
+                  size: 18,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -433,7 +462,7 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
           SizedBox(height: 24),
           SizedBox(
-            height: 200,
+            height: 280,
             child: BarChart(
               BarChartData(
                 alignment: BarChartAlignment.spaceAround,

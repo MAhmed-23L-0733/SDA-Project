@@ -102,21 +102,55 @@ class _SignUpPageState extends State<SignUpPage> {
       // If we reach here, registration was successful
       if (mounted) {
         // Get the newly created user ID from the response
-        final userId = response[0]['user_id'];
+        print('Registration response: $response');
+
+        // The response should contain the inserted user data
+        if (response.isNotEmpty && response[0].containsKey('user_id')) {
+          print('user_id key found in response');
+        } else if (response.isNotEmpty) {
+          print('Available keys in response: ${response[0].keys.toList()}');
+        }
+
+        // Try different possible key names for user_id
+        final userId = response[0]['user_id'] ?? response[0]['id'];
+
+        print('Registration successful. User ID: $userId');
+        print('Security Question Selected: $_selectedSecurityQuestion');
+        print(
+          'Security Answer Provided: ${_securityAnswerController.text.trim().isNotEmpty}',
+        );
 
         // If security question and answer are provided, save them
-        if (_selectedSecurityQuestion != null &&
+        if (userId != null &&
+            _selectedSecurityQuestion != null &&
             _selectedSecurityQuestion!.isNotEmpty &&
             _securityAnswerController.text.trim().isNotEmpty) {
           try {
+            print('Attempting to save security question...');
             await Users.addSecurityQuestion(
               userId,
               _selectedSecurityQuestion!,
               _securityAnswerController.text.trim(),
             );
+            print('Security question saved successfully!');
           } catch (e) {
-            // Log the error but don't fail the registration
+            // Log the error and show to user
             print('Failed to save security question: $e');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Warning: Security question could not be saved: ${e.toString()}',
+                ),
+                backgroundColor: Colors.orange,
+                duration: Duration(seconds: 4),
+              ),
+            );
+          }
+        } else {
+          if (userId == null) {
+            print('User ID is null - cannot save security question');
+          } else {
+            print('Security question not provided or incomplete');
           }
         }
 
@@ -137,28 +171,115 @@ class _SignUpPageState extends State<SignUpPage> {
     } on PostgrestException catch (e) {
       // Handle Supabase database errors
       String errorMessage = 'Database error occurred';
+      bool isEmailDuplicate = false;
 
-      if (e.code == '23505') {
+      if (e.code == '23505' || e.message.contains('duplicate key')) {
         errorMessage =
             'This email is already registered. Please sign in or use a different email.';
+        isEmailDuplicate = true;
       } else if (e.code == '23502') {
         errorMessage = 'Please fill in all required fields.';
       } else if (e.code == '23503') {
         errorMessage = 'Invalid reference data provided.';
-      } else if (e.message.contains('duplicate key')) {
-        errorMessage = 'This email is already registered.';
       } else {
         errorMessage = 'Database error: ${e.message}';
       }
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(errorMessage),
-            backgroundColor: Colors.red,
-            duration: const Duration(seconds: 5),
-          ),
-        );
+        if (isEmailDuplicate) {
+          // Show dialog for email already registered
+          final currentTheme = Theme.of(context);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                title: Row(
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      color: Colors.red.shade700,
+                      size: 28,
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'Email Already Registered',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'The email address "${_emailController.text.trim()}" is already associated with an existing account.',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'Would you like to:',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      '• Sign in with this email',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                    Text(
+                      '• Use a different email address',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Use Different Email'),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignInPage(),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.login),
+                    label: Text('Go to Sign In'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: currentTheme.colorScheme.primary,
+                      foregroundColor: Colors.white,
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          // Show snackbar for other errors
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(errorMessage),
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 5),
+            ),
+          );
+        }
       }
     } catch (e) {
       // Handle all other errors
@@ -169,14 +290,107 @@ class _SignUpPageState extends State<SignUpPage> {
         errorMessage = errorMessage.substring(11);
       }
 
+      // Check if it's an email duplicate error
+      bool isEmailDuplicate =
+          errorMessage.toLowerCase().contains('already registered') ||
+          errorMessage.toLowerCase().contains('duplicate') ||
+          errorMessage.toLowerCase().contains('already exists');
+
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(errorMessage),
-            backgroundColor: Colors.red,
-            duration: const Duration(seconds: 5),
-          ),
-        );
+        if (isEmailDuplicate) {
+          // Show dialog for email already registered
+          final currentTheme = Theme.of(context);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                title: Row(
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      color: Colors.red.shade700,
+                      size: 28,
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'Email Already Registered',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'The email address "${_emailController.text.trim()}" is already associated with an existing account.',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'Would you like to:',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      '• Sign in with this email',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                    Text(
+                      '• Use a different email address',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Use Different Email'),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignInPage(),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.login),
+                    label: Text('Go to Sign In'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: currentTheme.colorScheme.primary,
+                      foregroundColor: Colors.white,
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          // Show snackbar for other errors
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(errorMessage),
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 5),
+            ),
+          );
+        }
       }
     } finally {
       // Always stop loading, whether it failed or succeeded

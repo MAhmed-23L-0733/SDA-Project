@@ -179,12 +179,14 @@ class Users {
     String answer,
   ) async {
     try {
-      await supabase.from('account_recovery').insert({
+      final response = await supabase.from('account_recovery').insert({
         'user_id': userId,
         'question': question,
         'answer': answer,
-      });
+      }).select();
+      print('Insert response: $response');
     } catch (e) {
+      print('Error in addSecurityQuestion: $e');
       throw Exception('Failed to add security question: ${e.toString()}');
     }
   }
