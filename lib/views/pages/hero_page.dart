@@ -501,16 +501,25 @@ class HeroPage extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.width < 600 ? 24 : 40,
                   ),
-                  Wrap(
-                    alignment: WrapAlignment.spaceAround,
-                    spacing: 20,
-                    runSpacing: 20,
-                    children: [
-                      _buildStatCard(context, '50K+', 'Happy Travelers'),
-                      _buildStatCard(context, '500+', 'Train Routes'),
-                      _buildStatCard(context, '24/7', 'Support'),
-                    ],
-                  ),
+                  MediaQuery.of(context).size.width < 600
+                      ? Wrap(
+                          alignment: WrapAlignment.spaceAround,
+                          spacing: 20,
+                          runSpacing: 20,
+                          children: [
+                            _buildStatCard(context, '50K+', 'Happy Travelers'),
+                            _buildStatCard(context, '500+', 'Train Routes'),
+                            _buildStatCard(context, '24/7', 'Support'),
+                          ],
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _buildStatCard(context, '50K+', 'Happy Travelers'),
+                            _buildStatCard(context, '500+', 'Train Routes'),
+                            _buildStatCard(context, '24/7', 'Support'),
+                          ],
+                        ),
                 ],
               ),
             ),

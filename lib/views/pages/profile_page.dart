@@ -23,6 +23,8 @@ class _ProfilePageState extends State<ProfilePage> {
   bool _isLoading = false;
   List<PaymentInfo> _paymentMethods = [];
   bool _isLoadingPayments = true;
+  bool _hasSecurityQuestion = false;
+  bool _isCheckingSecurityQuestion = true;
 
   late TextEditingController _firstNameController;
   late TextEditingController _lastNameController;
@@ -35,6 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     _initializeControllers();
+    _checkSecurityQuestionStatus();
     if (roleNotifier.value == "customer") {
       _loadPaymentMethods();
     }
@@ -82,6 +85,34 @@ class _ProfilePageState extends State<ProfilePage> {
             backgroundColor: Colors.red,
           ),
         );
+      }
+    }
+  }
+
+  Future<void> _checkSecurityQuestionStatus() async {
+    setState(() {
+      _isCheckingSecurityQuestion = true;
+    });
+
+    try {
+      final user = roleNotifier.value == "customer"
+          ? customerNotifier.value
+          : adminNotifier.value;
+
+      if (user.id != null) {
+        final hasQuestion = await Users.hasSecurityQuestion(user.id!);
+        if (mounted) {
+          setState(() {
+            _hasSecurityQuestion = hasQuestion;
+            _isCheckingSecurityQuestion = false;
+          });
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isCheckingSecurityQuestion = false;
+        });
       }
     }
   }
@@ -474,16 +505,203 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Future<void> _showSecurityQuestionDialog() async {
+    String? selectedQuestion;
+    final answerController = TextEditingController();
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Row(
+                children: [
+                  Icon(Icons.security, color: Colors.red.shade700),
+                  SizedBox(width: 12),
+                  Expanded(child: Text('Set Up Security Question')),
+                ],
+              ),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Choose a security question and provide an answer. This will help you recover your account if you forget your password.',
+                      style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                    ),
+                    SizedBox(height: 20),
+                    DropdownButtonFormField<String>(
+                      value: selectedQuestion,
+                      decoration: InputDecoration(
+                        labelText: 'Security Question',
+                        prefixIcon: Icon(Icons.help_outline),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      items: Users.getSecurityQuestions()
+                          .map(
+                            (question) => DropdownMenuItem(
+                              value: question,
+                              child: Text(
+                                question,
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedQuestion = value;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    TextFormField(
+                      controller: answerController,
+                      decoration: InputDecoration(
+                        labelText: 'Your Answer',
+                        hintText: 'Enter your answer',
+                        prefixIcon: Icon(Icons.vpn_key_outlined),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (selectedQuestion == null || selectedQuestion!.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Please select a security question'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (answerController.text.trim().isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Please provide an answer'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (answerController.text.trim().length < 2) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Answer must be at least 2 characters'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+
+                    try {
+                      final user = roleNotifier.value == "customer"
+                          ? customerNotifier.value
+                          : adminNotifier.value;
+
+                      if (user.id == null) {
+                        throw Exception('User ID not found');
+                      }
+
+                      await Users.addSecurityQuestion(
+                        user.id!,
+                        selectedQuestion!,
+                        answerController.text.trim(),
+                      );
+
+                      // Close the dialog first
+                      if (!context.mounted) return;
+                      Navigator.of(context).pop();
+
+                      // Refresh security question status
+                      await _checkSecurityQuestionStatus();
+
+                      // Show success message on the parent context
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(this.context).showSnackBar(
+                        SnackBar(
+                          content: Row(
+                            children: [
+                              Icon(Icons.check_circle, color: Colors.white),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  'Security question set up successfully!',
+                                ),
+                              ),
+                            ],
+                          ),
+                          backgroundColor: Colors.green,
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      );
+                    } catch (e) {
+                      // Show error message
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(this.context).showSnackBar(
+                        SnackBar(
+                          content: Row(
+                            children: [
+                              Icon(Icons.error_outline, color: Colors.white),
+                              SizedBox(width: 12),
+                              Expanded(child: Text('Error: ${e.toString()}')),
+                            ],
+                          ),
+                          backgroundColor: Colors.red,
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red.shade700,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: Text('Save'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
     final user = roleNotifier.value == "customer"
         ? customerNotifier.value
         : adminNotifier.value;
 
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(isSmallScreen ? 12 : 20),
         child: Form(
           key: _formKey,
           child: Column(
@@ -492,21 +710,21 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(height: 20),
               // Profile Avatar
               Container(
-                height: 120,
-                width: 120,
+                height: isSmallScreen ? 80 : 120,
+                width: isSmallScreen ? 80 : 120,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: theme.colorScheme.primary.withValues(alpha: 0.2),
                   border: Border.all(
                     color: theme.colorScheme.primary,
-                    width: 3,
+                    width: isSmallScreen ? 2 : 3,
                   ),
                 ),
                 child: Center(
                   child: Text(
                     (user.lastName?[0] ?? 'U').toUpperCase(),
                     style: TextStyle(
-                      fontSize: 48,
+                      fontSize: isSmallScreen ? 32 : 48,
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.primary,
                     ),
@@ -516,7 +734,10 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(height: 16),
               Text(
                 '${user.firstName} ${user.lastName}',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: isSmallScreen ? 20 : 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               SizedBox(height: 8),
               Container(
@@ -589,6 +810,68 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               SizedBox(height: 32),
 
+              // Security Question Warning Banner
+              if (!_isCheckingSecurityQuestion && !_hasSecurityQuestion)
+                Container(
+                  margin: EdgeInsets.only(bottom: 24),
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.red.shade50,
+                    border: Border.all(color: Colors.red.shade300, width: 2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.warning_amber_rounded,
+                            color: Colors.red.shade700,
+                            size: 28,
+                          ),
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              'Security Question Not Set Up',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red.shade900,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 12),
+                      Text(
+                        'Set up a security question to help you recover your account if you forget your password. This is highly recommended for account security.',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.red.shade800,
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      ElevatedButton.icon(
+                        onPressed: _showSecurityQuestionDialog,
+                        icon: Icon(Icons.security),
+                        label: Text('Set Up Security Question'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red.shade700,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
               // Profile Information
               Card(
                 elevation: 2,
@@ -596,7 +879,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(isSmallScreen ? 12 : 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -808,7 +1091,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(isSmallScreen ? 12 : 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -850,7 +1133,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               )
                             : _paymentMethods.isEmpty
                             ? Container(
-                                padding: EdgeInsets.all(32),
+                                padding: EdgeInsets.all(
+                                  isSmallScreen ? 20 : 32,
+                                ),
                                 decoration: BoxDecoration(
                                   color: theme.colorScheme.surface,
                                   borderRadius: BorderRadius.circular(12),

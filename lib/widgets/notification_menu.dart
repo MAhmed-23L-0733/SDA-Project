@@ -50,9 +50,10 @@ class _NotificationMenuState extends State<NotificationMenu> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final hasActions = _actionNotifications.isNotEmpty;
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     return Container(
-      width: 380,
+      width: isSmallScreen ? MediaQuery.of(context).size.width : 380,
       constraints: BoxConstraints(maxHeight: 500),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -221,13 +222,20 @@ class _NotificationMenuState extends State<NotificationMenu> {
             Icon(
               icon,
               size: 64,
-              color: Color.fromRGBO(theme.colorScheme.primary.red, theme.colorScheme.primary.green, theme.colorScheme.primary.blue, 0.3),
+              color: Color.fromRGBO(
+                theme.colorScheme.primary.red,
+                theme.colorScheme.primary.green,
+                theme.colorScheme.primary.blue,
+                0.3,
+              ),
             ),
             SizedBox(height: 16),
             Text(
               message,
               style: TextStyle(
-                color: (theme.textTheme.bodyMedium?.color)?.withValues(alpha: 0.6),
+                color: (theme.textTheme.bodyMedium?.color)?.withValues(
+                  alpha: 0.6,
+                ),
                 fontSize: 16,
               ),
             ),
@@ -248,10 +256,20 @@ class _NotificationMenuState extends State<NotificationMenu> {
       margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Color.fromRGBO(theme.colorScheme.primary.red, theme.colorScheme.primary.green, theme.colorScheme.primary.blue, 0.05),
+        color: Color.fromRGBO(
+          theme.colorScheme.primary.red,
+          theme.colorScheme.primary.green,
+          theme.colorScheme.primary.blue,
+          0.05,
+        ),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: Color.fromRGBO(theme.colorScheme.primary.red, theme.colorScheme.primary.green, theme.colorScheme.primary.blue, 0.2),
+          color: Color.fromRGBO(
+            theme.colorScheme.primary.red,
+            theme.colorScheme.primary.green,
+            theme.colorScheme.primary.blue,
+            0.2,
+          ),
           width: 1,
         ),
       ),
@@ -340,12 +358,22 @@ class _NotificationMenuState extends State<NotificationMenu> {
       decoration: BoxDecoration(
         color: notification.isRead
             ? theme.cardColor
-            : Color.fromRGBO(theme.colorScheme.primary.red, theme.colorScheme.primary.green, theme.colorScheme.primary.blue, 0.05),
+            : Color.fromRGBO(
+                theme.colorScheme.primary.red,
+                theme.colorScheme.primary.green,
+                theme.colorScheme.primary.blue,
+                0.05,
+              ),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: notification.isRead
               ? theme.dividerColor
-              : Color.fromRGBO(theme.colorScheme.primary.red, theme.colorScheme.primary.green, theme.colorScheme.primary.blue, 0.2),
+              : Color.fromRGBO(
+                  theme.colorScheme.primary.red,
+                  theme.colorScheme.primary.green,
+                  theme.colorScheme.primary.blue,
+                  0.2,
+                ),
           width: 1,
         ),
       ),
@@ -355,7 +383,12 @@ class _NotificationMenuState extends State<NotificationMenu> {
           Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Color.fromRGBO(iconColor.red, iconColor.green, iconColor.blue, 0.1),
+              color: Color.fromRGBO(
+                iconColor.red,
+                iconColor.green,
+                iconColor.blue,
+                0.1,
+              ),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, size: 20, color: iconColor),
@@ -374,7 +407,9 @@ class _NotificationMenuState extends State<NotificationMenu> {
                   notification.message,
                   style: TextStyle(
                     fontSize: 12,
-                    color: (theme.textTheme.bodyMedium?.color)?.withValues(alpha: 0.8),
+                    color: (theme.textTheme.bodyMedium?.color)?.withValues(
+                      alpha: 0.8,
+                    ),
                   ),
                 ),
                 SizedBox(height: 4),
@@ -382,7 +417,9 @@ class _NotificationMenuState extends State<NotificationMenu> {
                   formattedTime,
                   style: TextStyle(
                     fontSize: 11,
-                    color: (theme.textTheme.bodyMedium?.color)?.withValues(alpha: 0.5),
+                    color: (theme.textTheme.bodyMedium?.color)?.withValues(
+                      alpha: 0.5,
+                    ),
                   ),
                 ),
               ],

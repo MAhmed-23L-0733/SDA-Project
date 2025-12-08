@@ -100,10 +100,120 @@ class Users {
           'p_new_password': newPassword,
         },
       );
-    } on PostgrestException catch (e) {
-      throw e;
     } catch (e) {
       throw Exception('Failed to update password: ${e.toString()}');
     }
+  }
+
+  // Check if user exists by email
+  static Future<bool> checkUserExists(String email) async {
+    try {
+      final response = await supabase
+          .from('users')
+          .select('id')
+          .eq('email', email)
+          .maybeSingle();
+      return response != null;
+    } catch (e) {
+      throw Exception('Failed to check user: ${e.toString()}');
+    }
+  }
+
+  // Get security question for account recovery
+  static Future<String?> getSecurityQuestion(String email) async {
+    try {
+      final userResponse = await supabase
+          .from('users')
+          .select('id')
+          .eq('email', email)
+          .maybeSingle();
+
+      if (userResponse == null) {
+        return null;
+      }
+
+      final recoveryResponse = await supabase
+          .from('account_recovery')
+          .select('question')
+          .eq('user_id', userResponse['id'])
+          .maybeSingle();
+
+      return recoveryResponse?['question'] as String?;
+    } catch (e) {
+      throw Exception('Failed to fetch security question: ${e.toString()}');
+    }
+  }
+
+  // Verify security answer using the database function
+  static Future<String> verifySecurityAnswer(
+    String email,
+    String answer,
+  ) async {
+    try {
+      final response = await supabase.rpc(
+        'account_recovery',
+        params: {'user_email': email, 'user_answer': answer},
+      );
+      return response as String;
+    } catch (e) {
+      throw Exception('Failed to verify answer: ${e.toString()}');
+    }
+  }
+
+  // Reset password (without old password, after security question)
+  static Future<void> resetPassword(String email, String newPassword) async {
+    try {
+      await supabase
+          .from('users')
+          .update({'password': newPassword})
+          .eq('email', email);
+    } catch (e) {
+      throw Exception('Failed to reset password: ${e.toString()}');
+    }
+  }
+
+  // Add security question for account recovery
+  static Future<void> addSecurityQuestion(
+    int userId,
+    String question,
+    String answer,
+  ) async {
+    try {
+      await supabase.from('account_recovery').insert({
+        'user_id': userId,
+        'question': question,
+        'answer': answer,
+      });
+    } catch (e) {
+      throw Exception('Failed to add security question: ${e.toString()}');
+    }
+  }
+
+  // Check if user has security question set up
+  static Future<bool> hasSecurityQuestion(int userId) async {
+    try {
+      final response = await supabase
+          .from('account_recovery')
+          .select('id')
+          .eq('user_id', userId)
+          .maybeSingle();
+      return response != null;
+    } catch (e) {
+      throw Exception('Failed to check security question: ${e.toString()}');
+    }
+  }
+
+  // Get predefined security questions
+  static List<String> getSecurityQuestions() {
+    return [
+      'What is your primary school name?',
+      'What is your hometown name?',
+      'What is your favorite restaurant?',
+      'What is your first pet\'s name?',
+      'What is your mother\'s maiden name?',
+      'What is your favorite movie?',
+      'What city were you born in?',
+      'What is your favorite book?',
+    ];
   }
 }

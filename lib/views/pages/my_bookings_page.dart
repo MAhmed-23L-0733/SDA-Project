@@ -246,6 +246,7 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
     bool isDark,
     ThemeData theme,
   ) {
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
     final bookingId = booking['booking_id'];
     final routeId = booking['route_id'];
     final route = booking['route'] ?? 'Unknown Route';
@@ -293,7 +294,7 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(isSmallScreen ? 12 : 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -561,22 +562,29 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
     int? routeId,
     Map<String, dynamic> booking,
   ) {
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
     switch (status.toLowerCase()) {
       case 'confirmed':
         return ElevatedButton.icon(
           onPressed: () => _cancelBooking(bookingId),
-          icon: Icon(Icons.cancel_outlined, size: 20),
+          icon: Icon(Icons.cancel_outlined, size: isSmallScreen ? 16 : 20),
           label: Text(
             'Cancel Booking',
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: isSmallScreen ? 12 : 15,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           style:
               ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: EdgeInsets.symmetric(
+                  horizontal: isSmallScreen ? 12 : 20,
+                  vertical: isSmallScreen ? 8 : 12,
+                ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(8),
                   side: BorderSide(color: Colors.red, width: 2),
                 ),
                 elevation: 2,

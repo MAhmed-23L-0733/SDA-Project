@@ -49,14 +49,16 @@ class WidgetTree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "BookFlee",
           style: TextStyle(
+            fontSize: isSmallScreen ? 18 : 20,
             fontWeight: FontWeight.bold,
             color: theme.colorScheme.primary,
-            letterSpacing: 10,
+            letterSpacing: isSmallScreen ? 6 : 10,
           ),
         ),
         centerTitle: true,
@@ -89,11 +91,22 @@ class WidgetTree extends StatelessWidget {
             builder: (context, isSignedIn, child) {
               return isSignedIn && roleNotifier.value == "customer"
                   ? PopupMenuButton<void>(
-                      offset: Offset(0, 50),
+                      offset: Offset(
+                        isSmallScreen
+                            ? -MediaQuery.of(context).size.width + 60
+                            : 0,
+                        50,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                       padding: EdgeInsets.zero,
+                      constraints: isSmallScreen
+                          ? BoxConstraints(
+                              minWidth: MediaQuery.of(context).size.width,
+                              maxWidth: MediaQuery.of(context).size.width,
+                            )
+                          : null,
                       itemBuilder: (BuildContext context) => [
                         PopupMenuItem<void>(
                           enabled: false,

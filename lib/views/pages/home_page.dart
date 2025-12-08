@@ -186,7 +186,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           ),
                         ),
                     child: Padding(
-                      padding: const EdgeInsets.all(24.0),
+                      padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.width < 600 ? 12.0 : 24.0,
+                      ),
                       child: _buildSearchCard(isDark),
                     ),
                   ),
@@ -279,8 +281,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 )
               else
                 SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width < 600
+                        ? 12
+                        : 24,
                     vertical: 8,
                   ),
                   sliver: SliverList(
@@ -310,6 +314,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Widget _buildSearchCard(bool isDark) {
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
     return Card(
       elevation: isDark ? 4 : 2,
       shape: RoundedRectangleBorder(
@@ -320,7 +325,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(isSmallScreen ? 12 : 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

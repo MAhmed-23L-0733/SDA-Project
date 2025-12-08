@@ -39,10 +39,15 @@ class _SignInPageState extends State<SignInPage> {
           children: [
             Icon(Icons.error_outline, color: Colors.red, size: 28),
             SizedBox(width: 12),
-            Text(title),
+            Flexible(child: Text(title)),
           ],
         ),
-        content: Text(message),
+        content: Text(
+          message,
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width < 600 ? 13 : 14,
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -67,8 +72,9 @@ class _SignInPageState extends State<SignInPage> {
           .from("users")
           .select()
           .eq('email', _emailController.text)
-          .single();
-      if (response.isEmpty) {
+          .maybeSingle();
+
+      if (response == null) {
         if (mounted) {
           _showErrorDialog(
             'Account Not Found',
@@ -200,7 +206,9 @@ class _SignInPageState extends State<SignInPage> {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24.0),
+              padding: EdgeInsets.all(
+                MediaQuery.of(context).size.width < 600 ? 12.0 : 24.0,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -239,7 +247,9 @@ class _SignInPageState extends State<SignInPage> {
                       borderRadius: BorderRadius.circular(24),
                     ),
                     child: Container(
-                      padding: const EdgeInsets.all(32.0),
+                      padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.width < 600 ? 16.0 : 32.0,
+                      ),
                       constraints: const BoxConstraints(maxWidth: 450),
                       child: Form(
                         key: _formKey,

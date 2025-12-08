@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/models/customer_model.dart';
+import 'package:flutter_template/models/user_model.dart';
 import 'package:flutter_template/views/pages/signin_page.dart';
 import 'package:flutter_template/utils/password_helper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -20,12 +21,14 @@ class _SignUpPageState extends State<SignUpPage> {
   final _confirmPasswordController = TextEditingController();
   final _dateOfBirthController = TextEditingController();
   final _phonecontroller = TextEditingController();
+  final _securityAnswerController = TextEditingController();
 
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   bool _isLoading = false;
   DateTime? _selectedDate;
   String? _selectedGender;
+  String? _selectedSecurityQuestion;
 
   final supabase = Supabase.instance.client;
 
@@ -38,6 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _dateOfBirthController.dispose();
+    _securityAnswerController.dispose();
     super.dispose();
   }
 
@@ -97,6 +101,25 @@ class _SignUpPageState extends State<SignUpPage> {
 
       // If we reach here, registration was successful
       if (mounted) {
+        // Get the newly created user ID from the response
+        final userId = response[0]['user_id'];
+
+        // If security question and answer are provided, save them
+        if (_selectedSecurityQuestion != null &&
+            _selectedSecurityQuestion!.isNotEmpty &&
+            _securityAnswerController.text.trim().isNotEmpty) {
+          try {
+            await Users.addSecurityQuestion(
+              userId,
+              _selectedSecurityQuestion!,
+              _securityAnswerController.text.trim(),
+            );
+          } catch (e) {
+            // Log the error but don't fail the registration
+            print('Failed to save security question: $e');
+          }
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Account created successfully!'),
@@ -201,7 +224,9 @@ class _SignUpPageState extends State<SignUpPage> {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24.0),
+              padding: EdgeInsets.all(
+                MediaQuery.of(context).size.width < 600 ? 12.0 : 24.0,
+              ),
               child: Container(
                 width: double.infinity,
                 child: Column(
@@ -237,7 +262,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         borderRadius: BorderRadius.circular(24),
                       ),
                       child: Container(
-                        padding: const EdgeInsets.all(32.0),
+                        padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width < 600 ? 16.0 : 32.0,
+                        ),
                         constraints: const BoxConstraints(maxWidth: 500),
                         child: Form(
                           key: _formKey,
@@ -484,6 +511,89 @@ class _SignUpPageState extends State<SignUpPage> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please select your gender';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 20),
+
+                              // Security Question Section (Optional)
+                              Text(
+                                'Account Recovery (Optional)',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Set up a security question to help recover your account if you forget your password.',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+
+                              // Security Question Dropdown
+                              DropdownButtonFormField<String>(
+                                value: _selectedSecurityQuestion,
+                                decoration: InputDecoration(
+                                  labelText: 'Security Question (Optional)',
+                                  hintText: 'Select a security question',
+                                  prefixIcon: Icon(
+                                    Icons.help_outline,
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                items: Users.getSecurityQuestions()
+                                    .map(
+                                      (question) => DropdownMenuItem(
+                                        value: question,
+                                        child: Text(
+                                          question,
+                                          style: const TextStyle(fontSize: 14),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedSecurityQuestion = value;
+                                  });
+                                },
+                              ),
+                              const SizedBox(height: 16),
+
+                              // Security Answer Field
+                              TextFormField(
+                                controller: _securityAnswerController,
+                                decoration: InputDecoration(
+                                  labelText: 'Security Answer (Optional)',
+                                  hintText: 'Enter your answer',
+                                  prefixIcon: Icon(
+                                    Icons.vpn_key_outlined,
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  // Only validate if a security question is selected
+                                  if (_selectedSecurityQuestion != null &&
+                                      _selectedSecurityQuestion!.isNotEmpty) {
+                                    if (value == null || value.trim().isEmpty) {
+                                      return 'Please provide an answer to your security question';
+                                    }
+                                    if (value.trim().length < 2) {
+                                      return 'Answer must be at least 2 characters';
+                                    }
                                   }
                                   return null;
                                 },
