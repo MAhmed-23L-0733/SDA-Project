@@ -141,6 +141,50 @@ class Admin extends Users {
     }
   }
 
+  // Get ticket prices for a specific route
+  static Future<Map<String, double?>> getRoutePrices(int routeId) async {
+    try {
+      final response = await supabase
+          .from('tickets')
+          .select('class, price')
+          .eq('route_id', routeId);
+
+      double? economyPrice;
+      double? businessPrice;
+      double? firstPrice;
+
+      for (var ticket in response) {
+        final ticketClass = ticket['class']?.toString().toLowerCase();
+        final price = ticket['price'] != null
+            ? (ticket['price'] as num).toDouble()
+            : null;
+
+        if (ticketClass == 'economy' && economyPrice == null) {
+          economyPrice = price;
+        } else if (ticketClass == 'business' && businessPrice == null) {
+          businessPrice = price;
+        } else if (ticketClass == 'first class' && firstPrice == null) {
+          firstPrice = price;
+        }
+
+        // Break if we have all prices
+        if (economyPrice != null &&
+            businessPrice != null &&
+            firstPrice != null) {
+          break;
+        }
+      }
+
+      return {
+        'economy': economyPrice,
+        'business': businessPrice,
+        'first': firstPrice,
+      };
+    } catch (e) {
+      throw Exception('Error fetching route prices: $e');
+    }
+  }
+
   // Get admin dashboard metrics
   static Future<Map<String, dynamic>> getAdminMetrics() async {
     try {

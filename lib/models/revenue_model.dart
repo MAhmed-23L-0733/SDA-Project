@@ -7,11 +7,15 @@ class RevenueInfo {
   final String customerName;
   final String customerEmail;
   final String customerPhone;
-  final int routeId;
-  final int? ticketId;
+  final String? routeOrigin;
+  final String? routeDestination;
+  final DateTime? travelDate;
+  final String? travelTime;
   final int? seatNumber;
   final String? ticketClass;
-  final int paidAmount;
+  final String? discountCode;
+  final double paidAmount;
+  final int? cardNumber;
   final String bookingStatus;
   final DateTime bookingDate;
 
@@ -20,11 +24,15 @@ class RevenueInfo {
     required this.customerName,
     required this.customerEmail,
     required this.customerPhone,
-    required this.routeId,
-    this.ticketId,
+    this.routeOrigin,
+    this.routeDestination,
+    this.travelDate,
+    this.travelTime,
     this.seatNumber,
     this.ticketClass,
+    this.discountCode,
     required this.paidAmount,
+    this.cardNumber,
     required this.bookingStatus,
     required this.bookingDate,
   });
@@ -35,11 +43,17 @@ class RevenueInfo {
       customerName: map['customer_name'] as String? ?? 'N/A',
       customerEmail: map['customer_email'] as String? ?? 'N/A',
       customerPhone: map['customer_phone'] as String? ?? 'N/A',
-      routeId: map['route_id'] as int,
-      ticketId: map['ticket_id'] as int?,
+      routeOrigin: map['route_origin'] as String?,
+      routeDestination: map['route_destination'] as String?,
+      travelDate: map['travel_date'] != null
+          ? DateTime.parse(map['travel_date'] as String)
+          : null,
+      travelTime: map['travel_time'] as String?,
       seatNumber: map['seat_number'] as int?,
       ticketClass: map['ticket_class'] as String?,
-      paidAmount: map['paid_amount'] as int,
+      discountCode: map['discount_code'] as String?,
+      paidAmount: (map['paid_amount'] as num?)?.toDouble() ?? 0.0,
+      cardNumber: map['card_number'] as int?,
       bookingStatus: map['booking_status'] as String,
       bookingDate: DateTime.parse(map['booking_date'] as String),
     );
@@ -73,5 +87,21 @@ class RevenueInfo {
       default:
         return 'grey';
     }
+  }
+
+  String getRouteDisplay() {
+    if (routeOrigin != null && routeDestination != null) {
+      return '$routeOrigin → $routeDestination';
+    }
+    return 'N/A';
+  }
+
+  String getMaskedCardNumber() {
+    if (cardNumber == null) return 'N/A';
+    final cardStr = cardNumber.toString();
+    if (cardStr.length >= 4) {
+      return '**** **** **** ${cardStr.substring(cardStr.length - 4)}';
+    }
+    return cardStr;
   }
 }

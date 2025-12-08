@@ -72,18 +72,18 @@ class _RevenueDetailsPageState extends State<RevenueDetailsPage> {
     });
   }
 
-  int _getTotalRevenue() {
+  double _getTotalRevenue() {
     if (_statusFilter == 'Confirmed') {
       return _filteredData
           .where((r) => r.bookingStatus.toLowerCase() == 'confirmed')
-          .fold(0, (sum, item) => sum + item.paidAmount);
+          .fold(0.0, (sum, item) => sum + item.paidAmount);
     } else if (_statusFilter == 'Cancelled') {
       return _filteredData
           .where((r) => r.bookingStatus.toLowerCase() == 'cancelled')
-          .fold(0, (sum, item) => sum + item.paidAmount);
+          .fold(0.0, (sum, item) => sum + item.paidAmount);
     } else {
       // All bookings
-      return _filteredData.fold(0, (sum, item) => sum + item.paidAmount);
+      return _filteredData.fold(0.0, (sum, item) => sum + item.paidAmount);
     }
   }
 
@@ -560,85 +560,140 @@ class _RevenueDetailsPageState extends State<RevenueDetailsPage> {
             ),
             SizedBox(height: 12),
 
-            // Ticket Details
-            if (isSmallScreen)
-              Column(
-                children: [
-                  _buildDetailRow(
-                    icon: Icons.route,
-                    label: 'Route ID',
-                    value: revenue.routeId.toString(),
-                    isSmallScreen: isSmallScreen,
+            // Route and Travel Details
+            if (revenue.routeOrigin != null && revenue.routeDestination != null)
+              Container(
+                padding: EdgeInsets.all(isSmallScreen ? 10 : 12),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: theme.colorScheme.primary.withOpacity(0.2),
+                    width: 1,
                   ),
-                  SizedBox(height: 8),
-                  if (revenue.ticketId != null)
-                    _buildDetailRow(
-                      icon: Icons.confirmation_number,
-                      label: 'Ticket ID',
-                      value: revenue.ticketId.toString(),
-                      isSmallScreen: isSmallScreen,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.route,
+                          size: isSmallScreen ? 16 : 18,
+                          color: theme.colorScheme.primary,
+                        ),
+                        SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            revenue.getRouteDisplay(),
+                            style: TextStyle(
+                              fontSize: isSmallScreen ? 13 : 14,
+                              fontWeight: FontWeight.w600,
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  if (revenue.ticketId != null) SizedBox(height: 8),
-                  if (revenue.seatNumber != null)
-                    _buildDetailRow(
+                    if (revenue.travelDate != null) ...[
+                      SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.calendar_today,
+                            size: isSmallScreen ? 14 : 16,
+                            color: Colors.grey[600],
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            DateFormat(
+                              'MMM dd, yyyy',
+                            ).format(revenue.travelDate!),
+                            style: TextStyle(
+                              fontSize: isSmallScreen ? 12 : 13,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          if (revenue.travelTime != null) ...[
+                            SizedBox(width: 12),
+                            Icon(
+                              Icons.access_time,
+                              size: isSmallScreen ? 14 : 16,
+                              color: Colors.grey[600],
+                            ),
+                            SizedBox(width: 6),
+                            Text(
+                              revenue.travelTime!,
+                              style: TextStyle(
+                                fontSize: isSmallScreen ? 12 : 13,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            if (revenue.routeOrigin != null && revenue.routeDestination != null)
+              SizedBox(height: 12),
+
+            // Ticket Details
+            Row(
+              children: [
+                if (revenue.seatNumber != null)
+                  Expanded(
+                    child: _buildDetailRow(
                       icon: Icons.event_seat,
                       label: 'Seat',
                       value: revenue.seatNumber.toString(),
                       isSmallScreen: isSmallScreen,
                     ),
-                  if (revenue.seatNumber != null) SizedBox(height: 8),
-                  if (revenue.ticketClass != null)
-                    _buildDetailRow(
+                  ),
+                if (revenue.seatNumber != null && revenue.ticketClass != null)
+                  SizedBox(width: 12),
+                if (revenue.ticketClass != null)
+                  Expanded(
+                    child: _buildDetailRow(
                       icon: Icons.class_,
                       label: 'Class',
                       value: revenue.ticketClass!,
                       isSmallScreen: isSmallScreen,
                     ),
-                ],
-              )
-            else
+                  ),
+              ],
+            ),
+
+            // Discount and Payment Details
+            if (revenue.discountCode != null || revenue.cardNumber != null) ...[
+              SizedBox(height: 12),
               Row(
                 children: [
-                  Expanded(
-                    child: _buildDetailRow(
-                      icon: Icons.route,
-                      label: 'Route ID',
-                      value: revenue.routeId.toString(),
-                      isSmallScreen: isSmallScreen,
-                    ),
-                  ),
-                  SizedBox(width: 12),
-                  if (revenue.ticketId != null)
+                  if (revenue.discountCode != null)
                     Expanded(
                       child: _buildDetailRow(
-                        icon: Icons.confirmation_number,
-                        label: 'Ticket ID',
-                        value: revenue.ticketId.toString(),
+                        icon: Icons.discount,
+                        label: 'Discount',
+                        value: revenue.discountCode!,
                         isSmallScreen: isSmallScreen,
                       ),
                     ),
-                  if (revenue.ticketId != null) SizedBox(width: 12),
-                  if (revenue.seatNumber != null)
+                  if (revenue.discountCode != null &&
+                      revenue.cardNumber != null)
+                    SizedBox(width: 12),
+                  if (revenue.cardNumber != null)
                     Expanded(
                       child: _buildDetailRow(
-                        icon: Icons.event_seat,
-                        label: 'Seat',
-                        value: revenue.seatNumber.toString(),
-                        isSmallScreen: isSmallScreen,
-                      ),
-                    ),
-                  if (revenue.seatNumber != null) SizedBox(width: 12),
-                  if (revenue.ticketClass != null)
-                    Expanded(
-                      child: _buildDetailRow(
-                        icon: Icons.class_,
-                        label: 'Class',
-                        value: revenue.ticketClass!,
+                        icon: Icons.credit_card,
+                        label: 'Card',
+                        value: revenue.getMaskedCardNumber(),
                         isSmallScreen: isSmallScreen,
                       ),
                     ),
                 ],
               ),
+            ],
 
             SizedBox(height: 12),
             Divider(height: 1),

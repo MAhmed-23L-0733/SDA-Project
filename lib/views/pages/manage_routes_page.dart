@@ -35,6 +35,11 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
   DateTime? _selectedDate;
   Routes? _editingRoute;
 
+  // Store previous prices when editing
+  double? _previousEconomyPrice;
+  double? _previousBusinessPrice;
+  double? _previousFirstPrice;
+
   @override
   void initState() {
     super.initState();
@@ -198,27 +203,54 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
     setState(() {
       _selectedDate = null;
       _editingRoute = null;
+      _previousEconomyPrice = null;
+      _previousBusinessPrice = null;
+      _previousFirstPrice = null;
     });
   }
 
-  void _editRoute(Routes route) {
-    setState(() {
-      _editingRoute = route;
-      _originController.text = route.origin ?? '';
-      _destinationController.text = route.destination ?? '';
-      _timeController.text = route.time ?? '';
-      _selectedDate = route.date;
-      // Note: For editing, we only allow updating prices, not ticket quantities
-      // Leave ticket quantity fields empty
-      _economyTicketsController.clear();
-      _businessTicketsController.clear();
-      _firstTicketsController.clear();
-      // Prices can be set to defaults or left empty for admin to input
-      _economyPriceController.clear();
-      _businessPriceController.clear();
-      _firstPriceController.clear();
-    });
-    _scrollToTop();
+  void _editRoute(Routes route) async {
+    // Fetch previous prices from tickets table
+    try {
+      final prices = await Admin.getRoutePrices(route.id!);
+
+      setState(() {
+        _editingRoute = route;
+        _originController.text = route.origin ?? '';
+        _destinationController.text = route.destination ?? '';
+        _timeController.text = route.time ?? '';
+        _selectedDate = route.date;
+
+        // Store previous prices for use in validation and submission
+        _previousEconomyPrice = prices['economy'];
+        _previousBusinessPrice = prices['business'];
+        _previousFirstPrice = prices['first'];
+
+        // Note: For editing, we only allow updating prices, not ticket quantities
+        // Leave ticket quantity fields empty
+        _economyTicketsController.clear();
+        _businessTicketsController.clear();
+        _firstTicketsController.clear();
+
+        // Set prices as text (not placeholders) so admin sees current values
+        _economyPriceController.text =
+            _previousEconomyPrice?.toStringAsFixed(2) ?? '';
+        _businessPriceController.text =
+            _previousBusinessPrice?.toStringAsFixed(2) ?? '';
+        _firstPriceController.text =
+            _previousFirstPrice?.toStringAsFixed(2) ?? '';
+      });
+      _scrollToTop();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error loading route prices: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   void _scrollToTop() {
@@ -275,15 +307,26 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
     try {
       if (_editingRoute != null) {
         // Update existing route with prices
+        // Use previous prices if fields are empty, otherwise parse new values
+        final economyPrice = _economyPriceController.text.trim().isEmpty
+            ? _previousEconomyPrice!
+            : double.parse(_economyPriceController.text.trim());
+        final businessPrice = _businessPriceController.text.trim().isEmpty
+            ? _previousBusinessPrice!
+            : double.parse(_businessPriceController.text.trim());
+        final firstPrice = _firstPriceController.text.trim().isEmpty
+            ? _previousFirstPrice!
+            : double.parse(_firstPriceController.text.trim());
+
         await Admin.updateRoute(
           routeId: _editingRoute!.id!,
           origin: _originController.text.trim(),
           destination: _destinationController.text.trim(),
           date: _selectedDate!,
           time: _timeController.text.trim(),
-          economyPrice: double.parse(_economyPriceController.text.trim()),
-          businessPrice: double.parse(_businessPriceController.text.trim()),
-          firstPrice: double.parse(_firstPriceController.text.trim()),
+          economyPrice: economyPrice,
+          businessPrice: businessPrice,
+          firstPrice: firstPrice,
         );
 
         if (mounted) {
@@ -667,7 +710,11 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                                 controller: _economyPriceController,
                                 decoration: InputDecoration(
                                   labelText: 'Economy Price (PKR)',
-                                  hintText: '0.00',
+                                  hintText:
+                                      _editingRoute != null &&
+                                          _previousEconomyPrice != null
+                                      ? 'Current: ${_previousEconomyPrice!.toStringAsFixed(2)}'
+                                      : '0.00',
                                   prefixText: 'PKR ',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -677,6 +724,12 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                                   decimal: true,
                                 ),
                                 validator: (value) {
+                                  // When editing, allow empty (will use previous price)
+                                  if (_editingRoute != null &&
+                                      (value == null || value.trim().isEmpty)) {
+                                    return null;
+                                  }
+                                  // When adding, require value
                                   if (value == null || value.trim().isEmpty) {
                                     return 'Required';
                                   }
@@ -697,7 +750,11 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                                 controller: _businessPriceController,
                                 decoration: InputDecoration(
                                   labelText: 'Business Price (PKR)',
-                                  hintText: '0.00',
+                                  hintText:
+                                      _editingRoute != null &&
+                                          _previousBusinessPrice != null
+                                      ? 'Current: ${_previousBusinessPrice!.toStringAsFixed(2)}'
+                                      : '0.00',
                                   prefixText: 'PKR ',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -707,6 +764,12 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                                   decimal: true,
                                 ),
                                 validator: (value) {
+                                  // When editing, allow empty (will use previous price)
+                                  if (_editingRoute != null &&
+                                      (value == null || value.trim().isEmpty)) {
+                                    return null;
+                                  }
+                                  // When adding, require value
                                   if (value == null || value.trim().isEmpty) {
                                     return 'Required';
                                   }
@@ -727,7 +790,11 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                                 controller: _firstPriceController,
                                 decoration: InputDecoration(
                                   labelText: 'First Class Price (PKR)',
-                                  hintText: '0.00',
+                                  hintText:
+                                      _editingRoute != null &&
+                                          _previousFirstPrice != null
+                                      ? 'Current: ${_previousFirstPrice!.toStringAsFixed(2)}'
+                                      : '0.00',
                                   prefixText: 'PKR ',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -737,6 +804,12 @@ class _ManageRoutesPageState extends State<ManageRoutesPage> {
                                   decimal: true,
                                 ),
                                 validator: (value) {
+                                  // When editing, allow empty (will use previous price)
+                                  if (_editingRoute != null &&
+                                      (value == null || value.trim().isEmpty)) {
+                                    return null;
+                                  }
+                                  // When adding, require value
                                   if (value == null || value.trim().isEmpty) {
                                     return 'Required';
                                   }
