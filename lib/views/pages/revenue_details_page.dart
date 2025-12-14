@@ -14,12 +14,21 @@ class _RevenueDetailsPageState extends State<RevenueDetailsPage> {
   List<RevenueInfo> _filteredData = [];
   bool _isLoading = true;
   String _searchQuery = '';
-  String _statusFilter = 'All';
+  String _statusFilter = 'Confirmed';
+  int? _selectedYear;
+  int? _selectedMonth;
+  List<int> _availableYears = [];
 
   @override
   void initState() {
     super.initState();
     _loadRevenueData();
+  }
+
+  void _calculateAvailableYears() {
+    final years = _revenueData.map((r) => r.bookingDate.year).toSet().toList()
+      ..sort((a, b) => b.compareTo(a)); // Most recent first
+    _availableYears = years;
   }
 
   Future<void> _loadRevenueData() async {
@@ -32,7 +41,8 @@ class _RevenueDetailsPageState extends State<RevenueDetailsPage> {
       if (mounted) {
         setState(() {
           _revenueData = data;
-          _filteredData = data;
+          _calculateAvailableYears();
+          _filterData();
           _isLoading = false;
         });
       }
@@ -64,11 +74,20 @@ class _RevenueDetailsPageState extends State<RevenueDetailsPage> {
             revenue.bookingId.toString().contains(_searchQuery);
 
         final matchesStatus =
-            _statusFilter == 'All' ||
             revenue.bookingStatus.toLowerCase() == _statusFilter.toLowerCase();
 
-        return matchesSearch && matchesStatus;
+        final matchesYear =
+            _selectedYear == null || revenue.bookingDate.year == _selectedYear;
+
+        final matchesMonth =
+            _selectedMonth == null ||
+            revenue.bookingDate.month == _selectedMonth;
+
+        return matchesSearch && matchesStatus && matchesYear && matchesMonth;
       }).toList();
+
+      // Sort by booking date (most recent first)
+      _filteredData.sort((a, b) => b.bookingDate.compareTo(a.bookingDate));
     });
   }
 
@@ -81,10 +100,8 @@ class _RevenueDetailsPageState extends State<RevenueDetailsPage> {
       return _filteredData
           .where((r) => r.bookingStatus.toLowerCase() == 'cancelled')
           .fold(0.0, (sum, item) => sum + item.paidAmount);
-    } else {
-      // All bookings
-      return _filteredData.fold(0.0, (sum, item) => sum + item.paidAmount);
     }
+    return 0.0;
   }
 
   Color _getRevenueColor() {
@@ -92,9 +109,8 @@ class _RevenueDetailsPageState extends State<RevenueDetailsPage> {
       return Colors.green;
     } else if (_statusFilter == 'Cancelled') {
       return Colors.red;
-    } else {
-      return Colors.white;
     }
+    return Colors.white;
   }
 
   String _getRevenueLabel() {
@@ -102,9 +118,8 @@ class _RevenueDetailsPageState extends State<RevenueDetailsPage> {
       return 'Revenue Gained';
     } else if (_statusFilter == 'Cancelled') {
       return 'Revenue Lost';
-    } else {
-      return 'Total Revenue';
     }
+    return 'Revenue';
   }
 
   @override
@@ -297,17 +312,96 @@ class _RevenueDetailsPageState extends State<RevenueDetailsPage> {
                         SizedBox(height: 12),
 
                         // Status Filter
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              _buildFilterChip('All'),
-                              SizedBox(width: 8),
-                              _buildFilterChip('Confirmed'),
-                              SizedBox(width: 8),
-                              _buildFilterChip('Cancelled'),
-                            ],
-                          ),
+                        Row(
+                          children: [
+                            Expanded(child: _buildFilterButton('Confirmed')),
+                            SizedBox(width: 12),
+                            Expanded(child: _buildFilterButton('Cancelled')),
+                          ],
+                        ),
+                        SizedBox(height: 12),
+
+                        // Year and Month Filter
+                        Row(
+                          children: [
+                            Expanded(
+                              child: DropdownButtonFormField<int>(
+                                decoration: InputDecoration(
+                                  labelText: 'Year',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 8,
+                                  ),
+                                ),
+                                value: _selectedYear,
+                                items: [
+                                  DropdownMenuItem<int>(
+                                    value: null,
+                                    child: Text('All Years'),
+                                  ),
+                                  ..._availableYears.map((year) {
+                                    return DropdownMenuItem<int>(
+                                      value: year,
+                                      child: Text(year.toString()),
+                                    );
+                                  }).toList(),
+                                ],
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedYear = value;
+                                    if (value == null) {
+                                      _selectedMonth = null;
+                                    }
+                                    _filterData();
+                                  });
+                                },
+                              ),
+                            ),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: DropdownButtonFormField<int>(
+                                decoration: InputDecoration(
+                                  labelText: 'Month',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 8,
+                                  ),
+                                ),
+                                value: _selectedMonth,
+                                items: [
+                                  DropdownMenuItem<int>(
+                                    value: null,
+                                    child: Text('All Months'),
+                                  ),
+                                  ...List.generate(12, (index) {
+                                    final month = index + 1;
+                                    return DropdownMenuItem<int>(
+                                      value: month,
+                                      child: Text(
+                                        DateFormat.MMMM().format(
+                                          DateTime(2024, month),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                ],
+                                onChanged: _selectedYear == null
+                                    ? null
+                                    : (value) {
+                                        setState(() {
+                                          _selectedMonth = value;
+                                          _filterData();
+                                        });
+                                      },
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -338,6 +432,8 @@ class _RevenueDetailsPageState extends State<RevenueDetailsPage> {
                             ),
                           ),
                         )
+                      : _selectedMonth != null
+                      ? _buildGroupedByDayList(theme, isDark, isSmallScreen)
                       : ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
@@ -401,19 +497,149 @@ class _RevenueDetailsPageState extends State<RevenueDetailsPage> {
     );
   }
 
-  Widget _buildFilterChip(String label) {
+  Widget _buildFilterButton(String label) {
+    final theme = Theme.of(context);
     final isSelected = _statusFilter == label;
-    return FilterChip(
-      label: Text(label),
-      selected: isSelected,
-      onSelected: (selected) {
+
+    return OutlinedButton(
+      onPressed: () {
         setState(() {
           _statusFilter = label;
           _filterData();
         });
       },
-      selectedColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-      checkmarkColor: Theme.of(context).colorScheme.primary,
+      style: OutlinedButton.styleFrom(
+        backgroundColor: isSelected
+            ? theme.colorScheme.primary.withOpacity(0.1)
+            : Colors.transparent,
+        foregroundColor: isSelected
+            ? theme.colorScheme.primary
+            : theme.textTheme.bodyLarge?.color,
+        side: BorderSide(
+          color: isSelected ? theme.colorScheme.primary : theme.dividerColor,
+          width: isSelected ? 2 : 1,
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        padding: EdgeInsets.symmetric(vertical: 16),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGroupedByDayList(
+    ThemeData theme,
+    bool isDark,
+    bool isSmallScreen,
+  ) {
+    // Group bookings by day
+    Map<String, List<RevenueInfo>> groupedByDay = {};
+
+    for (var revenue in _filteredData) {
+      final dayKey = DateFormat('yyyy-MM-dd').format(revenue.bookingDate);
+      if (!groupedByDay.containsKey(dayKey)) {
+        groupedByDay[dayKey] = [];
+      }
+      groupedByDay[dayKey]!.add(revenue);
+    }
+
+    // Sort days (most recent first)
+    final sortedDays = groupedByDay.keys.toList()
+      ..sort((a, b) => b.compareTo(a));
+
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+      itemCount: sortedDays.length,
+      itemBuilder: (context, index) {
+        final dayKey = sortedDays[index];
+        final bookings = groupedByDay[dayKey]!;
+        final date = DateTime.parse(dayKey);
+        final dayRevenue = bookings.fold<double>(
+          0.0,
+          (sum, item) => sum + item.paidAmount,
+        );
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Day header
+            Container(
+              margin: EdgeInsets.only(bottom: 12, top: index == 0 ? 0 : 8),
+              padding: EdgeInsets.symmetric(
+                horizontal: isSmallScreen ? 12 : 16,
+                vertical: isSmallScreen ? 8 : 12,
+              ),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: theme.colorScheme.primary.withOpacity(0.3),
+                  width: 1,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.calendar_today,
+                    size: isSmallScreen ? 16 : 18,
+                    color: theme.colorScheme.primary,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    DateFormat('EEEE, MMMM d, yyyy').format(date),
+                    style: TextStyle(
+                      fontSize: isSmallScreen ? 14 : 16,
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                  Spacer(),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primary.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      '${bookings.length} booking${bookings.length > 1 ? 's' : ''}',
+                      style: TextStyle(
+                        fontSize: isSmallScreen ? 11 : 12,
+                        fontWeight: FontWeight.w600,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    NumberFormat.currency(
+                      symbol: 'PKR ',
+                      decimalDigits: 0,
+                    ).format(dayRevenue),
+                    style: TextStyle(
+                      fontSize: isSmallScreen ? 13 : 14,
+                      fontWeight: FontWeight.bold,
+                      color: _statusFilter == 'Confirmed'
+                          ? Colors.green
+                          : Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Bookings for this day
+            ...bookings.map(
+              (revenue) =>
+                  _buildRevenueCard(revenue, theme, isDark, isSmallScreen),
+            ),
+          ],
+        );
+      },
     );
   }
 
